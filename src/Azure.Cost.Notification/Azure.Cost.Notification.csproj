@@ -8,6 +8,11 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Azure.Cost.Notification.Application.Domain\Azure.Cost.Notification.Application.Domain.csproj" />
+    <ProjectReference Include="..\Azure.Cost.Notification.Domain\Azure.Cost.Notification.Domain.csproj" />
+    <ProjectReference Include="..\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

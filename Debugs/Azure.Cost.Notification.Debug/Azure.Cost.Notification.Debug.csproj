@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Azure.Cost.Notification.Application.Domain\Azure.Cost.Notification.Application.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Cost.Notification.Domain\Azure.Cost.Notification.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj" />
+    <ProjectReference Include="..\..\src\Azure.Cost.Notification\Azure.Cost.Notification.csproj" />
+    <ProjectReference Include="..\..\src\Azure.RestApi.CostManagement\Azure.RestApi.CostManagement.csproj" />
+  </ItemGroup>
+
+</Project>
