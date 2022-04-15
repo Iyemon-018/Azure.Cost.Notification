@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C2AC8732-52F2-4F11-9902-CEF388FC2000}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0E370D3C-16F9-4C5E-81AD-7DB51B5EFE19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugs", "Debugs", "{02CF05CF-E8DB-418B-AB7B-09E1E5B3912F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification", "src\Azure.Cost.Notification\Azure.Cost.Notification.csproj", "{4B4BB936-A04E-4776-9741-B92B0DE1FC65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B4BB936-A04E-4776-9741-B92B0DE1FC65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B4BB936-A04E-4776-9741-B92B0DE1FC65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B4BB936-A04E-4776-9741-B92B0DE1FC65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B4BB936-A04E-4776-9741-B92B0DE1FC65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4B4BB936-A04E-4776-9741-B92B0DE1FC65} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B497537C-7221-4195-9CED-2A09347B7AE9}
+	EndGlobalSection
+EndGlobal
