@@ -41,9 +41,16 @@ steps:
     arguments: '--configuration $(buildConfiguration) --no-build'
 
 - task: PublishTestResults@2
+  displayName: Publish test result **/coverage.cobertura.xml
   inputs:
     testResultsFormat: 'XUnit'
     testResultsFiles: '**/coverage.cobertura.xml'
+
+- task: reportgenerator@5
+  displayName: ReportGenerator **/coverage.cobertura.xml
+  inputs:
+    reports: '**/coverage.cobertura.xml'
+    targetdir: 'coveragereport'
 
 #- task: DotNetCoreCLI@2
 #  displayName: dotnet test --configuration $(buildConfiguration) --no-build --collect "Coverage" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
