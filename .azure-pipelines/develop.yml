@@ -40,6 +40,13 @@ steps:
     projects: '**/*.Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration) --no-build'
 
+- task: DotNetCoreCLI@2
+  displayName: dotnet test --configuration $(buildConfiguration) --no-build --collect:"XPlat Code Coverage"
+  inputs:
+    command: 'test'
+    projects: '**/*.Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-build --collect:"XPlat Code Coverage"'
+
 - task: PublishTestResults@2
   displayName: Publish test result **/coverage.cobertura.xml
   inputs:
