@@ -17,7 +17,7 @@ steps:
   displayName: Use dotnet 6.0.X runtime
   inputs:
     packageType: 'sdk'
-    version: '6.0.X'
+    version: '6.0.x'
 
 - task: DotNetCoreCLI@2
   displayName: dotnet restore Azure.Cost.Notification.sln
