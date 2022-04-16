@@ -4,7 +4,13 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - README.md
+    - docs/**/*.*
 
 pool:
   vmImage: ubuntu-latest
@@ -14,10 +20,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: Use dotnet 6.0.X runtime
+  displayName: Use dotnet 6.x runtime
   inputs:
     packageType: 'sdk'
-    version: '6.0.x'
+    version: '6.x'
 
 - task: DotNetCoreCLI@2
   displayName: dotnet restore Azure.Cost.Notification.sln
@@ -40,6 +46,7 @@ steps:
     projects: '**/*.Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration) --no-build'
 
+# cf. https://docs.microsoft.com/ja-jp/dotnet/core/testing/unit-testing-code-coverage?tabs=linux
 - task: DotNetCoreCLI@2
   displayName: dotnet test --configuration $(buildConfiguration) --no-build --collect:"XPlat Code Coverage"
   inputs:
@@ -58,16 +65,3 @@ steps:
   inputs:
     reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
     targetdir: 'coveragereport'
-
-#- task: DotNetCoreCLI@2
-#  displayName: dotnet test --configuration $(buildConfiguration) --no-build --collect "Coverage" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-#  inputs:
-#    command: 'test'
-#    projects: '**/*.Tests/*.csproj'
-#    arguments: '--configuration $(buildConfiguration) --no-build --collect "Coverage" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
-
-#- task: PublishCodeCoverageResults@1
-#  displayName: 'Publish code coverage report'
-#  inputs:
-#    codeCoverageTool: 'Cobertura'
-#    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
