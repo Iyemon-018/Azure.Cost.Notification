@@ -8,7 +8,7 @@
 /// </remarks>
 public sealed class QueryDataset
 {
-    public QueryAggregation totalCost { get; set; }
+    public QueryAggregationDictionary aggregation { get; set; }
 
     public QueryDatasetConfiguration configuration { get; set; }
 

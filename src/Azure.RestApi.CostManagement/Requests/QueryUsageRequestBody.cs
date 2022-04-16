@@ -8,7 +8,7 @@ using Data;
 /// <remarks>
 /// cf. https://docs.microsoft.com/ja-jp/rest/api/cost-management/query/usage#request-body
 /// </remarks>
-public sealed class QueryUsageRequest
+public sealed class QueryUsageRequestBody
 {
     public QueryDataset dataset { get; set; }
 
