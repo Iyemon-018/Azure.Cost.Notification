@@ -13,17 +13,21 @@ public sealed class AzureResponse<T> where T : class
         StatusCode     = statusCode;
         RequestMessage = requestMessage;
         RequestUri     = requestMessage.RequestUri;
+        IsSuccess      = true;
     }
 
     public AzureResponse(HttpStatusCode statusCode, HttpRequestMessage requestMessage, ErrorResponse error)
             : this(null!, statusCode, requestMessage)
     {
-        _error = error;
+        _error    = error;
+        IsSuccess = false;
     }
 
     public T Content { get; }
 
     public HttpStatusCode StatusCode { get; }
+
+    public bool IsSuccess { get; }
 
     public HttpRequestMessage RequestMessage { get; }
 
