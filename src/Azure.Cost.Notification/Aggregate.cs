@@ -1,6 +1,6 @@
 namespace Azure.Cost.Notification;
 
-using System.Collections.Generic;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Domain.ValueObjects;
@@ -13,30 +13,49 @@ using Models;
 public sealed class Aggregate
 {
     [FunctionName($"{nameof(Aggregate)}_{nameof(Orchestrator)}")]
-    public async Task<List<string>> Orchestrator(
-            [OrchestrationTrigger] IDurableOrchestrationContext context)
+    public async Task<string> Orchestrator(
+            [OrchestrationTrigger] IDurableOrchestrationContext context
+            , ILogger log)
     {
-        var outputs = new List<string>();
+        ChatworkMessage    chatworkMessage = null;
+        ChatworkSendResult chatworkSendResult;
 
-        // TODO アクセストークンを取得する。
+        try
+        {
+            // TODO アクセストークンを取得する。
+            var tokenRequest = new AzureAccessTokenRequest(tenantId: ""
+                  , clientId: ""
+                  , clientSecret: "");
+            var token = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
 
-        // TODO 取得したアクセストークンを使用して、CostManagement API を呼び出す。(3つ)
+            // TODO 取得したアクセストークンを使用して、CostManagement API を呼び出す。(3つ)
+            var collectTasks = new[]
+                               {
+                                   context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", token)
+                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.WeeklyTotalCost)}", token)
+                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.MonthlyTotalCost)}", token)
+                               };
+            var totalCostResults = await Task.WhenAll(collectTasks);
 
-        // TODO 送信用のメッセージ形式にフォーマットする。
+            // TODO 送信用のメッセージ形式にフォーマットする。
+            chatworkMessage = await context.CallActivityAsync<ChatworkMessage>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", totalCostResults);
 
-        // TODO チャットに結果をまとめて送信する。
 
-        // Replace "hello" with the name of your Durable Activity Function.
-        //outputs.Add(await context.CallActivityAsync<string>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SayHello)}", "Tokyo"));
-        //outputs.Add(await context.CallActivityAsync<string>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SayHello)}", "Seattle"));
-        //outputs.Add(await context.CallActivityAsync<string>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SayHello)}", "London"));
+        }
+        catch (Exception e)
+        {
+            // 失敗した場合でもチャットに失敗したことの通知は出したい。
+            // でなければ成功したのか、実行されていないのか判断できないので。
+            chatworkMessage = new ChatworkMessage();
+            log.LogError(e, $"Failed aggregate azure cost.[{chatworkMessage}]");
+        }
+        finally
+        {
+            // TODO チャットに結果をまとめて送信する。
+            chatworkSendResult = await context.CallActivityAsync<ChatworkSendResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", chatworkMessage);
+        }
 
-        var tokenRequest = new AzureAccessTokenRequest(tenantId: ""
-              , clientId: ""
-              , clientSecret: "");
-        var token = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
-        // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
-        return outputs;
+        return chatworkSendResult.Log;
     }
 
     [FunctionName($"{nameof(Aggregate)}_{nameof(HttpStart)}")]
