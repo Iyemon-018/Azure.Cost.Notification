@@ -102,11 +102,24 @@ public sealed class SharedActivity
 // ‚±‚±‚©‚ç‰º‚Í .Application.Domain ‚É’Ç‰Á‚·‚éƒ‚ƒfƒ‹B
 public sealed class ChatworkSendResult
 {
+    public ChatworkSendResult(ChatworkMessage message, string messageId)
+    {
+        Log = $"Send [{messageId}] {message}";
+    }
+
     public string Log { get; }
 }
 
 public sealed class ChatworkMessage
 {
+    private readonly string _message;
+
+    public ChatworkMessage(string message)
+    {
+        _message = message;
+    }
+
+    public override string ToString() => $"{_message}";
 }
 
 public sealed class TotalCostResult

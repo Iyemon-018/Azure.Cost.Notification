@@ -39,14 +39,12 @@ public sealed class Aggregate
 
             // TODO 送信用のメッセージ形式にフォーマットする。
             chatworkMessage = await context.CallActivityAsync<ChatworkMessage>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", totalCostResults);
-
-
         }
         catch (Exception e)
         {
             // 失敗した場合でもチャットに失敗したことの通知は出したい。
             // でなければ成功したのか、実行されていないのか判断できないので。
-            chatworkMessage = new ChatworkMessage();
+            chatworkMessage = new ChatworkMessage("Azure 利用料金の通知に失敗しました。");
             log.LogError(e, $"Failed aggregate azure cost.[{chatworkMessage}]");
         }
         finally
