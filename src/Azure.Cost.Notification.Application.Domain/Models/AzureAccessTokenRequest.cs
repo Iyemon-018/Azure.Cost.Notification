@@ -1,4 +1,4 @@
-namespace Azure.Cost.Notification.Models;
+﻿namespace Azure.Cost.Notification.Application.Domain.Models;
 
 public sealed class AzureAccessTokenRequest
 {

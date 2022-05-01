@@ -8,7 +8,6 @@ using Domain.ValueObjects;
 using Infrastructure.RestApi;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
-using Models;
 using Moq;
 using Xunit;
 

@@ -3,22 +3,21 @@ namespace Azure.Cost.Notification;
 using System;
 using System.Threading.Tasks;
 using Application.Domain.Models;
+using Application.Domain.Services;
 using Domain.ValueObjects;
-using Infrastructure.RestApi;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
-using Models;
 
 public sealed class SharedActivity
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IAccessTokenRequestService _accessTokenRequestService;
 
-    public SharedActivity(IUnitOfWork unitOfWork)
+    public SharedActivity(IAccessTokenRequestService accessTokenRequestService)
     {
-        _unitOfWork = unitOfWork;
+        _accessTokenRequestService = accessTokenRequestService;
     }
-    
+
     /// <summary>
     /// Azure から OAuth を使用してアクセストークンを取得するためのアクティビティ関数です。
     /// </summary>
@@ -29,7 +28,8 @@ public sealed class SharedActivity
     public async Task<AzureAuthentication> GetAccessToken([ActivityTrigger] AzureAccessTokenRequest request, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(GetAccessToken)}] Azure から OAuth を使用してアクセストークンを取得する。");
-        return await _unitOfWork.LoginRepository.Authenticate(request.TenantId, request.ClientId, request.ClientSecret).ConfigureAwait(false);
+
+        return await _accessTokenRequestService.GetAsync(request).ConfigureAwait(false);
     }
 
     /// <summary>

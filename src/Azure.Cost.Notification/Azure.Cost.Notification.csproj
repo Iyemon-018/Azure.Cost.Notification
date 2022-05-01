@@ -11,7 +11,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Azure.Cost.Notification.Application.Domain\Azure.Cost.Notification.Application.Domain.csproj" />
     <ProjectReference Include="..\Azure.Cost.Notification.Domain\Azure.Cost.Notification.Domain.csproj" />
-    <ProjectReference Include="..\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
