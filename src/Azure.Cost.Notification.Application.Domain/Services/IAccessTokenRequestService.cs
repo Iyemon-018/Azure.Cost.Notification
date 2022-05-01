@@ -3,6 +3,9 @@
 using Models;
 using Notification.Domain.ValueObjects;
 
+/// <summary>
+/// Azure からアクセストークンを取得するためのアプリケーション サービス インターフェースです。
+/// </summary>
 public interface IAccessTokenRequestService
 {
     public Task<AzureAuthentication> GetAsync(AzureAccessTokenRequest request);
