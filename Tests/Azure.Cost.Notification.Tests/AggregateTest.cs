@@ -2,6 +2,7 @@ namespace Azure.Cost.Notification.Tests;
 
 using System;
 using System.Threading.Tasks;
+using Application.Domain.Models;
 using ChainingAssertion;
 using Domain.ValueObjects;
 using Infrastructure.RestApi;

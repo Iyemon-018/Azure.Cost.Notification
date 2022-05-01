@@ -3,6 +3,7 @@ namespace Azure.Cost.Notification;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Application.Domain.Models;
 using Domain.ValueObjects;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;

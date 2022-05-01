@@ -2,6 +2,7 @@ namespace Azure.Cost.Notification;
 
 using System;
 using System.Threading.Tasks;
+using Application.Domain.Models;
 using Domain.ValueObjects;
 using Infrastructure.RestApi;
 using Microsoft.Azure.WebJobs;
@@ -97,34 +98,4 @@ public sealed class SharedActivity
         throw new NotImplementedException();
     }
 
-}
-
-// ここから下は .Application.Domain に追加するモデル。
-public sealed class ChatworkSendResult
-{
-    public ChatworkSendResult(ChatworkMessage message, string messageId)
-    {
-        Log = $"Send [{messageId}] {message}";
-    }
-
-    public string Log { get; }
-}
-
-public sealed class ChatworkMessage
-{
-    private readonly string _message;
-
-    public ChatworkMessage(string message)
-    {
-        _message = message;
-    }
-
-    public override string ToString() => $"{_message}";
-}
-
-public sealed class TotalCostResult
-{
-    // 収集期間種別 みたいなので、日刊、週刊、月刊とか識別できるようにしたい。
-
-    // ここには REST API で取得したデータがすべて入っている想定。
 }
