@@ -26,14 +26,16 @@ public sealed class Aggregate
             var tokenRequest = new AzureAccessTokenRequest(tenantId: ""
                   , clientId: ""
                   , clientSecret: "");
-            var token = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
+
+            var token          = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
 
             // TODO 取得したアクセストークンを使用して、CostManagement API を呼び出す。(3つ)
+            var subscriptionId = "";
             var collectTasks = new[]
                                {
-                                   context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", token)
-                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.WeeklyTotalCost)}", token)
-                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.MonthlyTotalCost)}", token)
+                                   context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", subscriptionId)
+                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.WeeklyTotalCost)}", subscriptionId)
+                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.MonthlyTotalCost)}", subscriptionId)
                                };
             var totalCostResults = await Task.WhenAll(collectTasks);
 

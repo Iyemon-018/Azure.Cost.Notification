@@ -16,5 +16,6 @@ public sealed class Startup : FunctionsStartup
 
         builder.Services.AddSingleton<IUnitOfWork>(x => Factories.UnitOfWork(x.GetService<HttpClient>()));
         builder.Services.AddSingleton<IAccessTokenRequestService, AccessTokenRequestService>();
+        builder.Services.AddSingleton<IUsageCostRequestService, UsageCostRequestService>();
     }
 }

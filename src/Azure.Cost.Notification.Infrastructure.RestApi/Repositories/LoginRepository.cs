@@ -23,6 +23,9 @@ internal class LoginRepository : ILoginRepository
             throw new AzureRestApiException(response.StatusCode, response.RequestUri, response.RequestMessage, $"サービスプリンシパルの認証に失敗しました。");
 
         var content = response.Content;
+
+        _client.Login.AccessToken(content);
+
         return new AzureAuthentication(content.expires_on, content.not_before, content.token_type, content.access_token);
     }
 }

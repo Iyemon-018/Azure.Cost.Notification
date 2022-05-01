@@ -13,9 +13,12 @@ public sealed class SharedActivity
 {
     private readonly IAccessTokenRequestService _accessTokenRequestService;
 
-    public SharedActivity(IAccessTokenRequestService accessTokenRequestService)
+    private readonly IUsageCostRequestService   _usageCostRequestService;
+
+    public SharedActivity(IAccessTokenRequestService accessTokenRequestService, IUsageCostRequestService usageCostRequestService)
     {
-        _accessTokenRequestService = accessTokenRequestService;
+        _accessTokenRequestService    = accessTokenRequestService;
+        _usageCostRequestService = usageCostRequestService;
     }
 
     /// <summary>
@@ -39,10 +42,12 @@ public sealed class SharedActivity
     /// <param name="log"></param>
     /// <returns>Azure から取得した１日分の利用料金情報を返します。</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(DailyTotalCost)}")]
-    public async Task<TotalCostResult> DailyTotalCost([ActivityTrigger] AzureAuthentication authentication, ILogger log)
+    public async Task<TotalCostResult> DailyTotalCost([ActivityTrigger] string subscriptionId, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(DailyTotalCost)}] ");
-        throw new NotImplementedException();
+
+        var dailyCost = await _usageCostRequestService.GetDailyCostAsync(subscriptionId: subscriptionId).ConfigureAwait(false);
+        return new TotalCostResult(dailyCost);
     }
 
     /// <summary>
