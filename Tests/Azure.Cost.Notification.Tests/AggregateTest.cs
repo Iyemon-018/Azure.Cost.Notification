@@ -1,4 +1,4 @@
-namespace Azure.Cost.Notification.Tests;
+ï»¿namespace Azure.Cost.Notification.Tests;
 
 using System;
 using System.Threading.Tasks;
@@ -47,31 +47,31 @@ public class AggregateTest
     }
 
     [Fact]
-    public async Task Test_Orchestrator_WŒv‚µ‚½î•ñ‚ð‘—M‚µ‚½Œ‹‰Ê‚ðŽæ“¾‚Å‚«‚é‚±‚Æ()
+    public async Task Test_Orchestrator_é›†è¨ˆã—ãŸæƒ…å ±ã‚’é€ä¿¡ã—ãŸçµæžœã‚’å–å¾—ã§ãã‚‹ã“ã¨()
     {
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
-                    .ReturnsAsync(() => new ChatworkMessage($"{nameof(Test_Orchestrator_WŒv‚µ‚½î•ñ‚ð‘—M‚µ‚½Œ‹‰Ê‚ðŽæ“¾‚Å‚«‚é‚±‚Æ)}"));
+                    .ReturnsAsync(() => new ChatworkMessage($"{nameof(Test_Orchestrator_é›†è¨ˆã—ãŸæƒ…å ±ã‚’é€ä¿¡ã—ãŸçµæžœã‚’å–å¾—ã§ãã‚‹ã“ã¨)}"));
 
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
                     .ReturnsAsync((string functionName, ChatworkMessage x) =>
                      {
-                         // —áŠO‚ªƒXƒ[‚³‚ê‚½ê‡AŽó‚¯Žæ‚Á‚½ƒƒbƒZ[ƒW‚Í—áŠOƒCƒ“ƒXƒ^ƒ“ƒX‚ÌƒƒbƒZ[ƒW‚Æ‚È‚éB
-                         // ‚È‚Ì‚ÅAƒtƒH[ƒ}ƒbƒg‚µ‚½‚Æ‚«‚Ì–ß‚è’l‚ÌƒƒbƒZ[ƒW‚ðŽæ“¾‚Å‚«‚Ä‚¢‚ê‚Î‚±‚ÌƒeƒXƒg‚Í³í‚Æ”»’f‚Å‚«‚éB
-                         x.ToString().Is($"{nameof(Test_Orchestrator_WŒv‚µ‚½î•ñ‚ð‘—M‚µ‚½Œ‹‰Ê‚ðŽæ“¾‚Å‚«‚é‚±‚Æ)}");
+                         // ä¾‹å¤–ãŒã‚¹ãƒ­ãƒ¼ã•ã‚ŒãŸå ´åˆã€å—ã‘å–ã£ãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¯ä¾‹å¤–ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¨ãªã‚‹ã€‚
+                         // ãªã®ã§ã€ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã—ãŸã¨ãã®æˆ»ã‚Šå€¤ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã§ãã¦ã„ã‚Œã°ã“ã®ãƒ†ã‚¹ãƒˆã¯æ­£å¸¸ã¨åˆ¤æ–­ã§ãã‚‹ã€‚
+                         x.ToString().Is($"{nameof(Test_Orchestrator_é›†è¨ˆã—ãŸæƒ…å ±ã‚’é€ä¿¡ã—ãŸçµæžœã‚’å–å¾—ã§ãã‚‹ã“ã¨)}");
                          return new ChatworkSendResult(x, "12345");
                      });
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
         
-        // ÅŒã‚Ü‚ÅŽÀs‚Å‚«‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ðŠm”F‚·‚éB
+        // æœ€å¾Œã¾ã§å®Ÿè¡Œã§ãã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ç¢ºèªã™ã‚‹ã€‚
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
     }
 
     [Fact]
-    public async Task Test_Orchestrator_ƒAƒNƒZƒXƒg[ƒNƒ“Žæ“¾‚ÉŽ¸”s‚µ‚½ê‡‚É‘—M‚µ‚½Œ‹‰Ê‚ðŽæ“¾‚Å‚«‚é‚±‚Æ()
+    public async Task Test_Orchestrator_ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã«é€ä¿¡ã—ãŸçµæžœã‚’å–å¾—ã§ãã‚‹ã“ã¨()
     {
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<AzureAuthentication>(GetAccessTokenActivityName, It.IsAny<AzureAccessTokenRequest>()))
@@ -83,9 +83,9 @@ public class AggregateTest
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
-        Assert.Contains("Azure —˜—p—¿‹à‚Ì’Ê’m‚ÉŽ¸”s‚µ‚Ü‚µ‚½B", result);
+        Assert.Contains("Azure åˆ©ç”¨æ–™é‡‘ã®é€šçŸ¥ã«å¤±æ•—ã—ã¾ã—ãŸã€‚", result);
 
-        // —áŠO‚¾‚¯‚¾‚Æ‚Ç‚Ìƒ^ƒCƒ~ƒ“ƒO‚©”»’f‚Å‚«‚È‚¢‚Ì‚ÅA–¾Ž¦“I‚ÉŽ¸”s‚µ‚½‹@”\‚Ü‚ÅŽÀs‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ÍŠm”F‚·‚éB
+        // ä¾‹å¤–ã ã‘ã ã¨ã©ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‹åˆ¤æ–­ã§ããªã„ã®ã§ã€æ˜Žç¤ºçš„ã«å¤±æ•—ã—ãŸæ©Ÿèƒ½ã¾ã§å®Ÿè¡Œã•ã‚Œã¦ã„ã‚‹ã“ã¨ã¯ç¢ºèªã™ã‚‹ã€‚
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<AzureAuthentication>(GetAccessTokenActivityName, It.IsAny<AzureAccessTokenRequest>()), Times.Once);
         _testFactory.Context
@@ -93,7 +93,7 @@ public class AggregateTest
     }
 
     [Fact]
-    public async Task Test_Orchestrator_—˜—p—¿‹àŽæ“¾‚ÉŽ¸”s‚µ‚½ê‡‚É‘—M‚µ‚½Œ‹‰Ê‚ðŽæ“¾‚Å‚«‚é‚±‚Æ()
+    public async Task Test_Orchestrator_åˆ©ç”¨æ–™é‡‘å–å¾—ã«å¤±æ•—ã—ãŸå ´åˆã«é€ä¿¡ã—ãŸçµæžœã‚’å–å¾—ã§ãã‚‹ã“ã¨()
     {
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<AzureAuthentication>()))
@@ -105,9 +105,9 @@ public class AggregateTest
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
         
-        Assert.Contains("Azure —˜—p—¿‹à‚Ì’Ê’m‚ÉŽ¸”s‚µ‚Ü‚µ‚½B", result);
+        Assert.Contains("Azure åˆ©ç”¨æ–™é‡‘ã®é€šçŸ¥ã«å¤±æ•—ã—ã¾ã—ãŸã€‚", result);
 
-        // —áŠO‚¾‚¯‚¾‚Æ‚Ç‚Ìƒ^ƒCƒ~ƒ“ƒO‚©”»’f‚Å‚«‚È‚¢‚Ì‚ÅA–¾Ž¦“I‚ÉŽ¸”s‚µ‚½‹@”\‚Ü‚ÅŽÀs‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ÍŠm”F‚·‚éB
+        // ä¾‹å¤–ã ã‘ã ã¨ã©ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‹åˆ¤æ–­ã§ããªã„ã®ã§ã€æ˜Žç¤ºçš„ã«å¤±æ•—ã—ãŸæ©Ÿèƒ½ã¾ã§å®Ÿè¡Œã•ã‚Œã¦ã„ã‚‹ã“ã¨ã¯ç¢ºèªã™ã‚‹ã€‚
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<AzureAuthentication>()), Times.Once);
         _testFactory.Context
@@ -115,7 +115,7 @@ public class AggregateTest
     }
 
     [Fact]
-    public async Task Test_Orchestrator_ƒƒbƒZ[ƒWƒtƒH[ƒ}ƒbƒg‚ÉŽ¸”s‚µ‚½ê‡‚É‘—M‚µ‚½Œ‹‰Ê‚ðŽæ“¾‚Å‚«‚é‚±‚Æ()
+    public async Task Test_Orchestrator_ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã«å¤±æ•—ã—ãŸå ´åˆã«é€ä¿¡ã—ãŸçµæžœã‚’å–å¾—ã§ãã‚‹ã“ã¨()
     {
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
@@ -127,15 +127,15 @@ public class AggregateTest
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
-        Assert.Contains("Azure —˜—p—¿‹à‚Ì’Ê’m‚ÉŽ¸”s‚µ‚Ü‚µ‚½B", result);
+        Assert.Contains("Azure åˆ©ç”¨æ–™é‡‘ã®é€šçŸ¥ã«å¤±æ•—ã—ã¾ã—ãŸã€‚", result);
 
-        // —áŠO‚¾‚¯‚¾‚Æ‚Ç‚Ìƒ^ƒCƒ~ƒ“ƒO‚©”»’f‚Å‚«‚È‚¢‚Ì‚ÅA–¾Ž¦“I‚ÉŽ¸”s‚µ‚½‹@”\‚Ü‚ÅŽÀs‚³‚ê‚Ä‚¢‚é‚±‚Æ‚ÍŠm”F‚·‚éB
+        // ä¾‹å¤–ã ã‘ã ã¨ã©ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã‹åˆ¤æ–­ã§ããªã„ã®ã§ã€æ˜Žç¤ºçš„ã«å¤±æ•—ã—ãŸæ©Ÿèƒ½ã¾ã§å®Ÿè¡Œã•ã‚Œã¦ã„ã‚‹ã“ã¨ã¯ç¢ºèªã™ã‚‹ã€‚
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
     }
 
     [Fact]
-    public async Task Test_Orchestrator_ƒƒbƒZ[ƒW‘—M‚ÉŽ¸”s‚µ‚½ê‡‚É—áŠO‚ªƒXƒ[‚³‚ê‚é‚±‚Æ()
+    public async Task Test_Orchestrator_ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡ã«å¤±æ•—ã—ãŸå ´åˆã«ä¾‹å¤–ãŒã‚¹ãƒ­ãƒ¼ã•ã‚Œã‚‹ã“ã¨()
     {
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
@@ -145,7 +145,7 @@ public class AggregateTest
                     .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
                     .Throws<ApplicationException>();
 
-        // Chatwork ‚ÌƒƒbƒZ[ƒW‘—M‚ÅŽ¸”s‚µ‚½ê‡‚Í‚Ç‚¤‚µ‚æ‚¤‚à‚È‚¢‚Ì‚Å‚»‚Ì‚Ü‚Ü—áŠO“Š‚°‚é‚¾‚¯B
+        // Chatwork ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é€ä¿¡ã§å¤±æ•—ã—ãŸå ´åˆã¯ã©ã†ã—ã‚ˆã†ã‚‚ãªã„ã®ã§ãã®ã¾ã¾ä¾‹å¤–æŠ•ã’ã‚‹ã ã‘ã€‚
         (await Record.ExceptionAsync(() => _target.Orchestrator(_testFactory.Context.Object, _logger.Object)))
                     .IsInstanceOf<ApplicationException>();
     }
