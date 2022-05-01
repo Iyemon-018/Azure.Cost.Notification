@@ -1,4 +1,4 @@
-namespace Azure.Cost.Notification;
+ï»¿namespace Azure.Cost.Notification;
 
 using System;
 using System.Net.Http;
@@ -22,13 +22,13 @@ public sealed class Aggregate
 
         try
         {
-            // TODO ƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚·‚éB
+            // TODO ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚
             var tokenRequest = new AzureAccessTokenRequest(tenantId: ""
                   , clientId: ""
                   , clientSecret: "");
             var token = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
 
-            // TODO æ“¾‚µ‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚ğg—p‚µ‚ÄACostManagement API ‚ğŒÄ‚Ño‚·B(3‚Â)
+            // TODO å–å¾—ã—ãŸã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ä½¿ç”¨ã—ã¦ã€CostManagement API ã‚’å‘¼ã³å‡ºã™ã€‚(3ã¤)
             var collectTasks = new[]
                                {
                                    context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", token)
@@ -37,19 +37,19 @@ public sealed class Aggregate
                                };
             var totalCostResults = await Task.WhenAll(collectTasks);
 
-            // TODO ‘—M—p‚ÌƒƒbƒZ[ƒWŒ`®‚ÉƒtƒH[ƒ}ƒbƒg‚·‚éB
+            // TODO é€ä¿¡ç”¨ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å½¢å¼ã«ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã™ã‚‹ã€‚
             chatworkMessage = await context.CallActivityAsync<ChatworkMessage>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", totalCostResults);
         }
         catch (Exception e)
         {
-            // ¸”s‚µ‚½ê‡‚Å‚àƒ`ƒƒƒbƒg‚É¸”s‚µ‚½‚±‚Æ‚Ì’Ê’m‚Ío‚µ‚½‚¢B
-            // ‚Å‚È‚¯‚ê‚Î¬Œ÷‚µ‚½‚Ì‚©AÀs‚³‚ê‚Ä‚¢‚È‚¢‚Ì‚©”»’f‚Å‚«‚È‚¢‚Ì‚ÅB
-            chatworkMessage = new ChatworkMessage("Azure —˜—p—¿‹à‚Ì’Ê’m‚É¸”s‚µ‚Ü‚µ‚½B");
+            // å¤±æ•—ã—ãŸå ´åˆã§ã‚‚ãƒãƒ£ãƒƒãƒˆã«å¤±æ•—ã—ãŸã“ã¨ã®é€šçŸ¥ã¯å‡ºã—ãŸã„ã€‚
+            // ã§ãªã‘ã‚Œã°æˆåŠŸã—ãŸã®ã‹ã€å®Ÿè¡Œã•ã‚Œã¦ã„ãªã„ã®ã‹åˆ¤æ–­ã§ããªã„ã®ã§ã€‚
+            chatworkMessage = new ChatworkMessage("Azure åˆ©ç”¨æ–™é‡‘ã®é€šçŸ¥ã«å¤±æ•—ã—ã¾ã—ãŸã€‚");
             log.LogError(e, $"Failed aggregate azure cost.[{chatworkMessage}]");
         }
         finally
         {
-            // TODO ƒ`ƒƒƒbƒg‚ÉŒ‹‰Ê‚ğ‚Ü‚Æ‚ß‚Ä‘—M‚·‚éB
+            // TODO ãƒãƒ£ãƒƒãƒˆã«çµæœã‚’ã¾ã¨ã‚ã¦é€ä¿¡ã™ã‚‹ã€‚
             chatworkSendResult = await context.CallActivityAsync<ChatworkSendResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", chatworkMessage);
         }
 

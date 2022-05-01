@@ -1,4 +1,4 @@
-namespace Azure.Cost.Notification;
+ï»¿namespace Azure.Cost.Notification;
 
 using System;
 using System.Threading.Tasks;
@@ -19,25 +19,25 @@ public sealed class SharedActivity
     }
 
     /// <summary>
-    /// Azure ‚©‚ç OAuth ‚ğg—p‚µ‚ÄƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚·‚é‚½‚ß‚ÌƒAƒNƒeƒBƒrƒeƒBŠÖ”‚Å‚·B
+    /// Azure ã‹ã‚‰ OAuth ã‚’ä½¿ç”¨ã—ã¦ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£é–¢æ•°ã§ã™ã€‚
     /// </summary>
-    /// <param name="request">ƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚·‚é‚½‚ß‚Ì”FØî•ñ—v‹ƒIƒuƒWƒFƒNƒg</param>
+    /// <param name="request">ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®èªè¨¼æƒ…å ±è¦æ±‚ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
     /// <param name="log"></param>
-    /// <returns>Azure ‚©‚çæ“¾‚µ‚½ƒAƒNƒZƒXƒg[ƒNƒ“‚ğŠÜ‚Ş”FØî•ñ‚ğ•Ô‚µ‚Ü‚·B</returns>
+    /// <returns>Azure ã‹ã‚‰å–å¾—ã—ãŸã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å«ã‚€èªè¨¼æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(GetAccessToken)}")]
     public async Task<AzureAuthentication> GetAccessToken([ActivityTrigger] AzureAccessTokenRequest request, ILogger log)
     {
-        log.LogInformation($"[{nameof(SharedActivity)}_{nameof(GetAccessToken)}] Azure ‚©‚ç OAuth ‚ğg—p‚µ‚ÄƒAƒNƒZƒXƒg[ƒNƒ“‚ğæ“¾‚·‚éB");
+        log.LogInformation($"[{nameof(SharedActivity)}_{nameof(GetAccessToken)}] Azure ã‹ã‚‰ OAuth ã‚’ä½¿ç”¨ã—ã¦ã‚¢ã‚¯ã‚»ã‚¹ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—ã™ã‚‹ã€‚");
 
         return await _accessTokenRequestService.GetAsync(request).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// Azure Cost Management ‚©‚ç’¼‹ß‚P“ú•ª‚Ì—˜—p—¿‹àî•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÌƒAƒNƒeƒBƒrƒeƒBŠÖ”‚Å‚·B
+    /// Azure Cost Management ã‹ã‚‰ç›´è¿‘ï¼‘æ—¥åˆ†ã®åˆ©ç”¨æ–™é‡‘æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£é–¢æ•°ã§ã™ã€‚
     /// </summary>
-    /// <param name="authentication">Azure REST API ‚ğg—p‚·‚é‚½‚ß‚Ì”FØî•ñ</param>
+    /// <param name="authentication">Azure REST API ã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®èªè¨¼æƒ…å ±</param>
     /// <param name="log"></param>
-    /// <returns>Azure ‚©‚çæ“¾‚µ‚½‚P“ú•ª‚Ì—˜—p—¿‹àî•ñ‚ğ•Ô‚µ‚Ü‚·B</returns>
+    /// <returns>Azure ã‹ã‚‰å–å¾—ã—ãŸï¼‘æ—¥åˆ†ã®åˆ©ç”¨æ–™é‡‘æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(DailyTotalCost)}")]
     public async Task<TotalCostResult> DailyTotalCost([ActivityTrigger] AzureAuthentication authentication, ILogger log)
     {
@@ -46,11 +46,11 @@ public sealed class SharedActivity
     }
 
     /// <summary>
-    /// Azure Cost Managemnt ‚©‚ç’¼‹ßx•¥‚¢—LŒøŠúŠÔ‚PTŠÔ•ª‚Ì—¿‹à—˜—pî•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÌƒAƒNƒeƒBƒrƒeƒBŠÖ”‚Å‚·B
+    /// Azure Cost Managemnt ã‹ã‚‰ç›´è¿‘æ”¯æ‰•ã„æœ‰åŠ¹æœŸé–“ï¼‘é€±é–“åˆ†ã®æ–™é‡‘åˆ©ç”¨æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£é–¢æ•°ã§ã™ã€‚
     /// </summary>
-    /// <param name="authentication">Azure REST API ‚ğg—p‚·‚é‚½‚ß‚Ì”FØî•ñ</param>
+    /// <param name="authentication">Azure REST API ã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®èªè¨¼æƒ…å ±</param>
     /// <param name="log"></param>
-    /// <returns>Azure ‚©‚çæ“¾‚µ‚½‚PTŠÔ•ª‚Ì—˜—p—¿‹àî•ñ‚ğ•Ô‚µ‚Ü‚·B</returns>
+    /// <returns>Azure ã‹ã‚‰å–å¾—ã—ãŸï¼‘é€±é–“åˆ†ã®åˆ©ç”¨æ–™é‡‘æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(WeeklyTotalCost)}")]
     public async Task<TotalCostResult> WeeklyTotalCost([ActivityTrigger] AzureAuthentication authentication, ILogger log)
     {
@@ -59,11 +59,11 @@ public sealed class SharedActivity
     }
 
     /// <summary>
-    /// Azure Cost Management ‚©‚ç’¼‹ßx•¥‚¢—LŒøŠúŠÔ‚Pƒ–Œ•ª‚Ì—˜—p—¿‹àî•ñ‚ğæ“¾‚·‚é‚½‚ß‚ÌƒAƒNƒeƒBƒrƒeƒBŠÖ”‚Å‚·B
+    /// Azure Cost Management ã‹ã‚‰ç›´è¿‘æ”¯æ‰•ã„æœ‰åŠ¹æœŸé–“ï¼‘ãƒ¶æœˆåˆ†ã®åˆ©ç”¨æ–™é‡‘æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£é–¢æ•°ã§ã™ã€‚
     /// </summary>
-    /// <param name="authentication">Azure REST API ‚ğg—p‚·‚é‚½‚ß‚Ì”FØî•ñ</param>
+    /// <param name="authentication">Azure REST API ã‚’ä½¿ç”¨ã™ã‚‹ãŸã‚ã®èªè¨¼æƒ…å ±</param>
     /// <param name="log"></param>
-    /// <returns>Azure ‚©‚çæ“¾‚µ‚½‚Pƒ–Œ•ª‚Ì—˜—p—¿‹àî•ñ‚ğ•Ô‚µ‚Ü‚·B</returns>
+    /// <returns>Azure ã‹ã‚‰å–å¾—ã—ãŸï¼‘ãƒ¶æœˆåˆ†ã®åˆ©ç”¨æ–™é‡‘æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(MonthlyTotalCost)}")]
     public async Task<TotalCostResult> MonthlyTotalCost([ActivityTrigger] AzureAuthentication authentication, ILogger log)
     {
@@ -72,11 +72,11 @@ public sealed class SharedActivity
     }
 
     /// <summary>
-    /// ûW‚µ‚½—˜—p—¿‹àî•ñ‚©‚ç Chatwork ‚É‘—M‚·‚éƒƒbƒZ[ƒW‚ğ‘®‰»‚·‚é‚½‚ß‚ÌƒAƒNƒeƒBƒrƒeƒBŠÖ”‚Å‚·B
+    /// åé›†ã—ãŸåˆ©ç”¨æ–™é‡‘æƒ…å ±ã‹ã‚‰ Chatwork ã«é€ä¿¡ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ›¸å¼åŒ–ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£é–¢æ•°ã§ã™ã€‚
     /// </summary>
-    /// <param name="totalCosts">ûW‚µ‚½—˜—p—¿‹àî•ñ‚Ì”z—ñ</param>
+    /// <param name="totalCosts">åé›†ã—ãŸåˆ©ç”¨æ–™é‡‘æƒ…å ±ã®é…åˆ—</param>
     /// <param name="log"></param>
-    /// <returns>‘—M‚·‚é‚½‚ß‚ÌƒƒbƒZ[ƒWî•ñ‚ğ•Ô‚µ‚Ü‚·B</returns>
+    /// <returns>é€ä¿¡ã™ã‚‹ãŸã‚ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æƒ…å ±ã‚’è¿”ã—ã¾ã™ã€‚</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(FormatChatworkMessage)}")]
     public async Task<ChatworkMessage> FormatChatworkMessage([ActivityTrigger] TotalCostResult[] totalCosts, ILogger log)
     {
@@ -85,11 +85,11 @@ public sealed class SharedActivity
     }
 
     /// <summary>
-    /// Chatwork ‚ÉƒƒbƒZ[ƒW‚ğ‘—M‚·‚é‚½‚ß‚ÌƒAƒNƒeƒBƒrƒeƒBŠÖ”‚Å‚·B
+    /// Chatwork ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ä¿¡ã™ã‚‹ãŸã‚ã®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£é–¢æ•°ã§ã™ã€‚
     /// </summary>
-    /// <param name="message">‘—MƒƒbƒZ[ƒW</param>
+    /// <param name="message">é€ä¿¡ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</param>
     /// <param name="log"></param>
-    /// <returns>‘—MŒ‹‰Ê‚ğ•Ô‚µ‚Ü‚·B</returns>
+    /// <returns>é€ä¿¡çµæœã‚’è¿”ã—ã¾ã™ã€‚</returns>
     /// <exception cref="NotImplementedException"></exception>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(SendChatwork)}")]
     public async Task<ChatworkSendResult> SendChatwork([ActivityTrigger] ChatworkMessage message, ILogger log)
