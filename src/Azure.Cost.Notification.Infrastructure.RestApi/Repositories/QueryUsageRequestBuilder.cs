@@ -38,7 +38,7 @@ internal static class QueryUsageRequestBuilder
              , timeframe = TimeframeType.Custom
              , timePeriod = new QueryTimePeriod
                             {
-                                @from = target.AddDays(-7), to = target
+                                @from = target.AddDays(-6), to = target
                             }
              , dataset = new QueryDataset
                          {

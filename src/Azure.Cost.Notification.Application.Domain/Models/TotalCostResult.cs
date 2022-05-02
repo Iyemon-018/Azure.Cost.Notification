@@ -21,6 +21,20 @@ public sealed class TotalCostResult
         To         = dailyCost.Target;
     }
 
+    public TotalCostResult(WeeklyCost weeklyCost)
+    {
+        _usage     = weeklyCost.Usage;
+        PeriodType = AggregationPeriodType.LastWeek;
+        From       = weeklyCost.PeriodFrom;
+        To         = weeklyCost.PeriodTo;
+    }
+
+    public TotalCostResult(MonthlyCost monthlyCost)
+    {
+        _usage     = monthlyCost.Usage;
+        PeriodType = AggregationPeriodType.CurrentBillingPeriod;
+    }
+
     /// <summary>
     /// 集計期間種別を返します。
     /// </summary>

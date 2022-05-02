@@ -12,7 +12,7 @@ public partial class Client : IQuery
                                                            , string?               apiVersion        = default
                                                            , CancellationToken     cancellationToken = default)
     {
-        var uri      = $"https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version={apiVersion ?? Constants.LatestVersion}{(string.IsNullOrEmpty(skipToken) ? $"$skiptoken={skipToken}": string.Empty)}";
+        var uri      = $"https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version={apiVersion ?? Constants.LatestVersion}{(string.IsNullOrEmpty(skipToken) ? string.Empty: $"$skiptoken={skipToken}")}";
         var request  = RestApiRequest<QueryUsageRequestBody>.AsStringContent(uri, body);
         var response = await _tokenClient.PostAsync(request, cancellationToken).ConfigureAwait(false);
 
