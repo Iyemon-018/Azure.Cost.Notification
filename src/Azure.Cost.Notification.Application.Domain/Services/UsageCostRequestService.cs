@@ -14,9 +14,9 @@ public sealed class UsageCostRequestService : IUsageCostRequestService
     }
 
     public async Task<DailyCost> GetDailyCostAsync(string subscriptionId)
-    {
-        return await _resourceUsageRepository.GetDailyCostAsync(subscriptionId: subscriptionId, DateTime.Today.AddDays(-1)).ConfigureAwait(false);
-    }
+        => await _resourceUsageRepository.GetDailyCostAsync(subscriptionId: subscriptionId
+                                                , DateTime.UtcNow.Date.AddDays(-1))
+                                         .ConfigureAwait(false);
 
     // TODO ここに Weekly も Monthly も追加する。
 }

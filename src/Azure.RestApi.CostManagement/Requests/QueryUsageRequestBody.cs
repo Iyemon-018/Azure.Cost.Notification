@@ -12,7 +12,7 @@ public sealed class QueryUsageRequestBody
 {
     public QueryDataset dataset { get; set; }
 
-    public TimeframeType timeframeType { get; set; }
+    public TimeframeType timeframe { get; set; }
 
     public ExportType type { get; set; }
 

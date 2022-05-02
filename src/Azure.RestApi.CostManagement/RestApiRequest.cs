@@ -19,6 +19,8 @@ internal sealed class RestApiRequest<T>
     public static RestApiRequest<T> AsFormUrlEncodedContent(string uri, T content) => new(uri, WebSerializer.ToHttpContent(content));
 
     public static RestApiRequest<T> AsStringContent(string uri, T content)
-        => new(uri
-              , new StringContent(JsonSerializer.Serialize(content, Constants.JsonSerializerOptions), Encoding.UTF8, "application/json"));
+    {
+        var json = JsonSerializer.Serialize(content, Constants.JsonSerializerOptions);
+        return new(uri, new StringContent(json, Encoding.UTF8, "application/json"));
+    }
 }

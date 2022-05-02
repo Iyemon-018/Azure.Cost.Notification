@@ -1,40 +1,41 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using Azure.RestApi.CostManagement;
-using Azure.RestApi.CostManagement.Data;
-using Azure.RestApi.CostManagement.Requests;
 using System.Text.Json;
 using Azure.Cost.Notification.Application.Domain;
+using Azure.Cost.Notification.Application.Domain.Models;
+using Azure.Cost.Notification.Domain.ValueObjects;
+using Azure.Cost.Notification.Infrastructure.RestApi;
 
 Console.WriteLine("Hello, World!");
 
-await using var stream = File.OpenRead(Path.Combine(Environment.CurrentDirectory, "appsettings.json"));
-var appSettings = await JsonSerializer.DeserializeAsync<AppSettings>(stream);
+await using var stream      = File.OpenRead(Path.Combine(Environment.CurrentDirectory, "appsettings.json"));
+var             appSettings = await JsonSerializer.DeserializeAsync<AppSettings>(stream).ConfigureAwait(false);
 
-var client      = new Client(new HttpClient());
-var requestBody = AccessTokenRequestBody.AsClientCredentials(appSettings.ClientId, appSettings.ClientSecret);
-var accessToken = await client.Login.GetAccessTokenAsync(appSettings.TenantId, requestBody).ConfigureAwait(false);
+var unitOfWork = Factories.UnitOfWork(new HttpClient());
+var accessToken = await unitOfWork.LoginRepository.Authenticate(tenantId: appSettings.TenantId
+                                         , clientId: appSettings.ClientId
+                                         , clientSecret: appSettings.ClientSecret)
+                                  .ConfigureAwait(false);
 
-client.AccessToken(accessToken.Content);
+DailyCost dailyCost;
+try
+{
+    // 日付の指定は UTC のほうが正確。
+    dailyCost = await unitOfWork.ResourceUsageRepository
+                                .GetDailyCostAsync(appSettings.SubscriptionId, DateTime.UtcNow.Date.AddDays(-1))
+                                .ConfigureAwait(false);
+}
+catch (AzureRestApiException e)
+{
+    Console.WriteLine(e.Message);
+    return;
+}
 
-var body = new QueryUsageRequestBody
-           {
-               type          = ExportType.ActualCost
-             , timeframeType = TimeframeType.BillingMonthToDate
-             , dataset = new QueryDataset
-                         {
-                             aggregation = QueryAggregationDictionary.Default()
-                           , granularity = GranularityType.Monthly
-                           , grouping = new[]
-                                        {
-                                            QueryGrouping.ResourceGroupName()
-                                          , QueryGrouping.ServiceName()
-                                          , QueryGrouping.ResourceId()
-                                        }
-                         }
-           };
-var response = await client.Query
-                           .UsageAsync(QueryScope.Subscriptions(appSettings.SubscriptionId), body)
-                           .ConfigureAwait(false);
+var lines = new TotalCostResult(dailyCost).TakeHighAmount(5)
+                                          .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
+                                          .ToArray();
 
-Console.WriteLine(response.Content.ToString());
+foreach (var line in lines)
+{
+    Console.WriteLine(line);
+}

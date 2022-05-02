@@ -10,11 +10,12 @@ using Extensions;
 internal sealed class ResourceUsageRepository : IResourceUsageRepository
 {
     private static readonly QueryGrouping[] DefaultGroup
-            = {
-                  QueryGrouping.ResourceGroupName()
-                , QueryGrouping.ServiceName()
-                , QueryGrouping.ResourceId()
-              };
+            =
+            {
+                QueryGrouping.ResourceGroupName()
+              , QueryGrouping.ServiceName()
+              , QueryGrouping.ResourceId()
+            };
 
     private readonly IClient _client;
 
@@ -27,8 +28,12 @@ internal sealed class ResourceUsageRepository : IResourceUsageRepository
     {
         var body = new QueryUsageRequestBody
                    {
-                       type          = ExportType.Usage
-                     , timeframeType = TimeframeType.Custom
+                       type      = ExportType.Usage
+                     , timeframe = TimeframeType.Custom
+                     , timePeriod = new QueryTimePeriod
+                                    {
+                                        from = target, to = target
+                                    }
                      , dataset = new QueryDataset
                                  {
                                      aggregation = QueryAggregationDictionary.Default()
@@ -40,6 +45,7 @@ internal sealed class ResourceUsageRepository : IResourceUsageRepository
 
         return response.IsSuccess
                 ? response.Content.AsDailyCost(target)
-                : throw new AzureRestApiException(response.StatusCode, response.RequestUri, response.RequestMessage, $"Failed get daily usage for Azure Cost Management REST API.");
+                : throw new AzureRestApiException(response.StatusCode, response.RequestUri, response.RequestMessage
+                      , $"Failed get daily usage for Azure Cost Management REST API. {response.ErrorMessage}");
     }
 }

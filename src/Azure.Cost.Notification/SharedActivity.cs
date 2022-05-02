@@ -47,6 +47,7 @@ public sealed class SharedActivity
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(DailyTotalCost)}] ");
 
         var dailyCost = await _usageCostRequestService.GetDailyCostAsync(subscriptionId: subscriptionId).ConfigureAwait(false);
+
         return new TotalCostResult(dailyCost);
     }
 

@@ -1,8 +1,46 @@
 ﻿namespace Azure.Cost.Notification.Application.Domain.Models;
 
+using Notification.Domain.ValueObjects;
+
+/// <summary>
+/// Azure REST API によって取得したリソース利用料金の結果を保持します。
+/// </summary>
 public sealed class TotalCostResult
 {
-    // 収集期間種別 みたいなので、日刊、週刊、月刊とか識別できるようにしたい。
+    /// <summary>
+    /// Azure REST API によって取得したリソースの利用料情報がすべてここに格納される。
+    /// フィルタなどは原則子のクラスしか実施しないものとする。
+    /// </summary>
+    private readonly IEnumerable<ResourceUsage> _usage;
 
-    // ここには REST API で取得したデータがすべて入っている想定。
+    public TotalCostResult(DailyCost dailyCost)
+    {
+        _usage     = dailyCost.Usage;
+        PeriodType = AggregationPeriodType.LastDate;
+        From       = dailyCost.Target;
+        To         = dailyCost.Target;
+    }
+
+    /// <summary>
+    /// 集計期間種別を返します。
+    /// </summary>
+    public AggregationPeriodType PeriodType { get; }
+
+    /// <summary>
+    /// 集計期間の開始日を取得します。
+    /// </summary>
+    public DateTime From { get; }
+
+    /// <summary>
+    /// 集計期間の終了日を取得します。
+    /// </summary>
+    public DateTime To { get; }
+
+    /// <summary>
+    /// 利用金額の高いリソースを取り出します。
+    /// </summary>
+    /// <param name="count">取り出す上位の数です。<para>5</para> の場合、金額の高い上位5つを返します。</param>
+    /// <returns>取り出した要素を返します。</returns>
+    public IEnumerable<ResourceUsage> TakeHighAmount(int count)
+        => _usage.OrderByDescending(x => x.Cost).Take(count);
 }

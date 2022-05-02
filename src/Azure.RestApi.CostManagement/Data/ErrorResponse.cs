@@ -8,9 +8,7 @@
 /// </remarks>
 public sealed class ErrorResponse
 {
-    public string code { get; set; }
+    public ErrorDetails error { get; set; }
 
-    public string message { get; set; }
-    
-    public override string ToString() => $"{code}: {message}";
+    public override string ToString() => $"{error.code}: {error.message}";
 }
