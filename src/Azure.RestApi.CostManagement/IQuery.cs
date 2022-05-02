@@ -16,11 +16,16 @@ public interface IQuery
     /// </summary>
     /// <param name="scope"></param>
     /// <param name="body"></param>
+    /// <param name="skipToken"></param>
     /// <param name="apiVersion"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <remarks>
     /// cf. https://docs.microsoft.com/ja-jp/rest/api/cost-management/query/usage
     /// </remarks>
-    Task<AzureResponse<QueryResult>> UsageAsync(QueryScope scope, QueryUsageRequestBody body, string? apiVersion = default, CancellationToken cancellationToken = default);
+    Task<AzureResponse<QueryResult>> UsageAsync(QueryScope scope
+                                              , QueryUsageRequestBody body
+                                              , string skipToken = default!
+                                              , string? apiVersion = default
+                                              , CancellationToken cancellationToken = default);
 }
