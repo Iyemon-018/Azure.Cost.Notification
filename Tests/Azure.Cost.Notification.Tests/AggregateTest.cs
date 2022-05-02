@@ -89,14 +89,14 @@ public class AggregateTest
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<AzureAuthentication>(GetAccessTokenActivityName, It.IsAny<AzureAccessTokenRequest>()), Times.Once);
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<TotalCostResult>(DailyTotalCostActivityName, It.IsAny<AzureAuthentication>()), Times.Never);
+                    .Verify(x => x.CallActivityAsync<TotalCostResult>(DailyTotalCostActivityName, It.IsAny<string>()), Times.Never);
     }
 
     [Fact]
     public async Task Test_Orchestrator_利用料金取得に失敗した場合に送信した結果を取得できること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<AzureAuthentication>()))
+                    .Setup(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<string>()))
                     .Throws<AzureRestApiException>();
 
         _testFactory.Context
@@ -109,9 +109,9 @@ public class AggregateTest
 
         // 例外だけだとどのタイミングか判断できないので、明示的に失敗した機能まで実行されていることは確認する。
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<AzureAuthentication>()), Times.Once);
+                    .Verify(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<string>()), Times.Once);
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<TotalCostResult>(MonthlyTotalCostActivityName, It.IsAny<AzureAuthentication>()), Times.Never);
+                    .Verify(x => x.CallActivityAsync<TotalCostResult>(MonthlyTotalCostActivityName, It.IsAny<string>()), Times.Never);
     }
 
     [Fact]

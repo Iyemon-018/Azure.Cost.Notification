@@ -38,7 +38,7 @@ public sealed class SharedActivity
     /// <summary>
     /// Azure Cost Management から直近１日分の利用料金情報を取得するためのアクティビティ関数です。
     /// </summary>
-    /// <param name="authentication">Azure REST API を使用するための認証情報</param>
+    /// <param name="subscriptionId">利用料金を取得する対象のサブスクリプション ID</param>
     /// <param name="log"></param>
     /// <returns>Azure から取得した１日分の利用料金情報を返します。</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(DailyTotalCost)}")]
@@ -54,11 +54,11 @@ public sealed class SharedActivity
     /// <summary>
     /// Azure Cost Managemnt から直近支払い有効期間１週間分の料金利用情報を取得するためのアクティビティ関数です。
     /// </summary>
-    /// <param name="authentication">Azure REST API を使用するための認証情報</param>
+    /// <param name="subscriptionId">利用料金を取得する対象のサブスクリプション ID</param>
     /// <param name="log"></param>
     /// <returns>Azure から取得した１週間分の利用料金情報を返します。</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(WeeklyTotalCost)}")]
-    public async Task<TotalCostResult> WeeklyTotalCost([ActivityTrigger] AzureAuthentication authentication, ILogger log)
+    public async Task<TotalCostResult> WeeklyTotalCost([ActivityTrigger] string subscriptionId, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(WeeklyTotalCost)}] ");
         throw new NotImplementedException();
@@ -67,11 +67,11 @@ public sealed class SharedActivity
     /// <summary>
     /// Azure Cost Management から直近支払い有効期間１ヶ月分の利用料金情報を取得するためのアクティビティ関数です。
     /// </summary>
-    /// <param name="authentication">Azure REST API を使用するための認証情報</param>
+    /// <param name="subscriptionId">利用料金を取得する対象のサブスクリプション ID</param>
     /// <param name="log"></param>
     /// <returns>Azure から取得した１ヶ月分の利用料金情報を返します。</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(MonthlyTotalCost)}")]
-    public async Task<TotalCostResult> MonthlyTotalCost([ActivityTrigger] AzureAuthentication authentication, ILogger log)
+    public async Task<TotalCostResult> MonthlyTotalCost([ActivityTrigger] string subscriptionId, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(MonthlyTotalCost)}] ");
         throw new NotImplementedException();
