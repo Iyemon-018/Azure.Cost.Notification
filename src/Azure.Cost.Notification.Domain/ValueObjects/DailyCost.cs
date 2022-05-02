@@ -14,6 +14,6 @@ public sealed class DailyCost : ValueObjectBase<DailyCost>
 
     protected override bool EqualsCore(DailyCost other)
     {
-        return Target == other.Target && Usage.Count() == other.Usage.Count() && Equals(Usage, other.Usage);
+        return Target == other.Target && Usage.Count() == other.Usage.Count() && Usage == other.Usage;
     }
 }
