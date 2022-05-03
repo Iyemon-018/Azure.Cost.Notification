@@ -57,4 +57,10 @@ public sealed class TotalCostResult
     /// <returns>取り出した要素を返します。</returns>
     public IEnumerable<ResourceUsage> TakeHighAmount(int count)
         => _usage.OrderByDescending(x => x.Cost).Take(count);
+
+    /// <summary>
+    /// すべてのリソースの合計金額を取得します。
+    /// </summary>
+    /// <returns>リソースの合計金額を返します。</returns>
+    public decimal TotalCost() => _usage.Sum(x => x.Cost);
 }

@@ -61,7 +61,10 @@ public sealed class SharedActivity
     public async Task<TotalCostResult> WeeklyTotalCost([ActivityTrigger] string subscriptionId, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(WeeklyTotalCost)}] ");
-        throw new NotImplementedException();
+
+        var weeklyCost = await _usageCostRequestService.GetWeeklyCostAsync(subscriptionId: subscriptionId).ConfigureAwait(false);
+
+        return new TotalCostResult(weeklyCost);
     }
 
     /// <summary>
@@ -74,7 +77,10 @@ public sealed class SharedActivity
     public async Task<TotalCostResult> MonthlyTotalCost([ActivityTrigger] string subscriptionId, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(MonthlyTotalCost)}] ");
-        throw new NotImplementedException();
+
+        var monthlyCost = await _usageCostRequestService.GetMonthlyCostAsync(subscriptionId: subscriptionId).ConfigureAwait(false);
+
+        return new TotalCostResult(monthlyCost);
     }
 
     /// <summary>

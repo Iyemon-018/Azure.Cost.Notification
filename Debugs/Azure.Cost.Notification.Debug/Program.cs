@@ -33,11 +33,13 @@ Console.WriteLine($"----- Daily cost ----");
         return;
     }
 
-    var lines = new TotalCostResult(dailyCost).TakeHighAmount(5)
-                                              .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
-                                              .ToArray();
+    var totalCost = new TotalCostResult(dailyCost);
+    var lines = totalCost.TakeHighAmount(5)
+                         .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
+                         .ToArray();
 
     Console.WriteLine($"[{dailyCost.Target:yyyy-MM-dd}]");
+    Console.WriteLine($"Total: {totalCost.TotalCost()}");
     foreach (var line in lines) Console.WriteLine(line);
 }
 
@@ -55,12 +57,14 @@ Console.WriteLine($"----- Weekly cost ----");
         Console.WriteLine(e);
         return;
     }
-    
-    var lines = new TotalCostResult(weeklyCost).TakeHighAmount(5)
-                                           .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
-                                           .ToArray();
+
+    var totalCost = new TotalCostResult(weeklyCost);
+    var lines = totalCost.TakeHighAmount(5)
+                         .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
+                         .ToArray();
 
     Console.WriteLine($"[{weeklyCost.PeriodFrom:yyyy-MM-dd} - {weeklyCost.PeriodTo:yyyy-MM-dd}]");
+    Console.WriteLine($"Total: {totalCost.TotalCost()}");
     foreach (var line in lines) Console.WriteLine(line);
 }
 
@@ -79,9 +83,11 @@ Console.WriteLine($"----- Monthly cost ----");
         return;
     }
 
-    var lines = new TotalCostResult(monthlyCost).TakeHighAmount(5)
-                                            .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
-                                            .ToArray();
+    var totalCost = new TotalCostResult(monthlyCost);
+    var lines = totalCost.TakeHighAmount(5)
+                         .Select(x => $"{x.ResourceGroupName} - {x.Id}({x.ServiceName}) | {x.Cost} JPY.")
+                         .ToArray();
 
+    Console.WriteLine($"Total: {totalCost.TotalCost()}");
     foreach (var line in lines) Console.WriteLine(line);
 }
