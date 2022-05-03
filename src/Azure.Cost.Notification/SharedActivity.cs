@@ -1,6 +1,7 @@
 ﻿namespace Azure.Cost.Notification;
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Domain.Models;
 using Application.Domain.Services;
@@ -13,12 +14,17 @@ public sealed class SharedActivity
 {
     private readonly IAccessTokenRequestService _accessTokenRequestService;
 
-    private readonly IUsageCostRequestService   _usageCostRequestService;
+    private readonly IUsageCostRequestService _usageCostRequestService;
 
-    public SharedActivity(IAccessTokenRequestService accessTokenRequestService, IUsageCostRequestService usageCostRequestService)
+    private readonly ICostMessageBuildService _costMessageBuildService;
+
+    public SharedActivity(IAccessTokenRequestService accessTokenRequestService
+                        , IUsageCostRequestService usageCostRequestService
+                        , ICostMessageBuildService costMessageBuildService)
     {
-        _accessTokenRequestService    = accessTokenRequestService;
-        _usageCostRequestService = usageCostRequestService;
+        _accessTokenRequestService = accessTokenRequestService;
+        _usageCostRequestService   = usageCostRequestService;
+        _costMessageBuildService   = costMessageBuildService;
     }
 
     /// <summary>
@@ -90,10 +96,11 @@ public sealed class SharedActivity
     /// <param name="log"></param>
     /// <returns>送信するためのメッセージ情報を返します。</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(FormatChatworkMessage)}")]
-    public async Task<ChatworkMessage> FormatChatworkMessage([ActivityTrigger] TotalCostResult[] totalCosts, ILogger log)
+    public IEnumerable<ChatworkMessage> FormatChatworkMessage([ActivityTrigger] TotalCostResult[] totalCosts, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(FormatChatworkMessage)}] ");
-        throw new NotImplementedException();
+
+        return _costMessageBuildService.Build(totalCosts);
     }
 
     /// <summary>
@@ -104,7 +111,7 @@ public sealed class SharedActivity
     /// <returns>送信結果を返します。</returns>
     /// <exception cref="NotImplementedException"></exception>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(SendChatwork)}")]
-    public async Task<ChatworkSendResult> SendChatwork([ActivityTrigger] ChatworkMessage message, ILogger log)
+    public async Task<ChatworkSendResult> SendChatwork([ActivityTrigger] IEnumerable<ChatworkMessage> message, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
         throw new NotImplementedException();

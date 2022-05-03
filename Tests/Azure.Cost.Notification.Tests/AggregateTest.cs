@@ -2,13 +2,13 @@
 
 using System;
 using System.Threading.Tasks;
-using Application.Domain.Models;
 using ChainingAssertion;
 using Domain.ValueObjects;
 using Infrastructure.RestApi;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Notification.Application.Domain.Models;
 using Xunit;
 
 public class AggregateTest

@@ -3,6 +3,7 @@
 [assembly: FunctionsStartup(typeof(Azure.Cost.Notification.Startup))]
 namespace Azure.Cost.Notification;
 
+using System.Globalization;
 using System.Net.Http;
 using Application.Domain.Services;
 using Infrastructure.RestApi;
@@ -10,6 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 public sealed class Startup : FunctionsStartup
 {
+    public Startup()
+    {
+        CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("ja-JP");
+    }
+
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.Services.AddHttpClient();
@@ -17,5 +23,6 @@ public sealed class Startup : FunctionsStartup
         builder.Services.AddSingleton<IUnitOfWork>(x => Factories.UnitOfWork(x.GetService<HttpClient>()));
         builder.Services.AddSingleton<IAccessTokenRequestService, AccessTokenRequestService>();
         builder.Services.AddSingleton<IUsageCostRequestService, UsageCostRequestService>();
+        builder.Services.AddSingleton<ICostMessageBuildService, CostMessageBuildService>();
     }
 }

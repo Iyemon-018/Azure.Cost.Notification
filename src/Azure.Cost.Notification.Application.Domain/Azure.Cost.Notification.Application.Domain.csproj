@@ -21,4 +21,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ChatworkApi" Version="1.0.0" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,8 @@
 ﻿namespace Azure.Cost.Notification;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Application.Domain.Models;
@@ -17,8 +19,8 @@ public sealed class Aggregate
             [OrchestrationTrigger] IDurableOrchestrationContext context
             , ILogger log)
     {
-        ChatworkMessage    chatworkMessage = null;
-        ChatworkSendResult chatworkSendResult;
+        var                messages = Enumerable.Empty<ChatworkMessage>();
+        ChatworkSendResult sendResult;
 
         try
         {
@@ -40,22 +42,22 @@ public sealed class Aggregate
             var totalCostResults = await Task.WhenAll(collectTasks);
 
             // TODO 送信用のメッセージ形式にフォーマットする。
-            chatworkMessage = await context.CallActivityAsync<ChatworkMessage>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", totalCostResults);
+            messages = await context.CallActivityAsync<IEnumerable<ChatworkMessage>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", totalCostResults);
         }
         catch (Exception e)
         {
             // 失敗した場合でもチャットに失敗したことの通知は出したい。
             // でなければ成功したのか、実行されていないのか判断できないので。
-            chatworkMessage = new ChatworkMessage("Azure 利用料金の通知に失敗しました。");
-            log.LogError(e, $"Failed aggregate azure cost.[{chatworkMessage}]");
+            messages = new[] {new ChatworkMessage("Azure 利用料金の通知に失敗しました。")};
+            log.LogError(e, $"Failed aggregate azure cost.[{messages}]");
         }
         finally
         {
             // TODO チャットに結果をまとめて送信する。
-            chatworkSendResult = await context.CallActivityAsync<ChatworkSendResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", chatworkMessage);
+            sendResult = await context.CallActivityAsync<ChatworkSendResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", messages);
         }
 
-        return chatworkSendResult.Log;
+        return sendResult.Log;
     }
 
     [FunctionName($"{nameof(Aggregate)}_{nameof(HttpStart)}")]
