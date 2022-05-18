@@ -15,7 +15,7 @@ public sealed class CostMessageBuildService : ICostMessageBuildService
 
             var builder = new MessageBuilder();
 
-            builder.Information.Add(title, $"{totalCost:C2}{Environment.NewLine}{highAmount}");
+            builder.Information.Add(title, $"合計: {totalCost:C2}{Environment.NewLine}[hr]{Environment.NewLine}利用料の高いリソース{Environment.NewLine}{highAmount}");
 
             yield return new ChatworkMessage(builder.Build());
         }
