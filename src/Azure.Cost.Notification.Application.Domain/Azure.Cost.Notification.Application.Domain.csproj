@@ -25,4 +25,7 @@
     <PackageReference Include="ChatworkApi" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Azure.Cost.Notification.Tests" />
+  </ItemGroup>
 </Project>
