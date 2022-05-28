@@ -1,6 +1,8 @@
 ﻿namespace Azure.Cost.Notification.Tests;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ChainingAssertion;
 using Domain.ValueObjects;
@@ -50,24 +52,26 @@ public class AggregateTest
     public async Task Test_Orchestrator_集計した情報を送信した結果を取得できること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
-                    .ReturnsAsync(() => new ChatworkMessage($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}"));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
+                    .ReturnsAsync(() => new[] {new ChatworkMessage($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}")});
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
-                    .ReturnsAsync((string functionName, ChatworkMessage x) =>
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
+                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) =>
                      {
                          // 例外がスローされた場合、受け取ったメッセージは例外インスタンスのメッセージとなる。
                          // なので、フォーマットしたときの戻り値のメッセージを取得できていればこのテストは正常と判断できる。
-                         x.ToString().Is($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}");
-                         return new ChatworkSendResult(x, "12345");
+                         messages.First().ToString().Is($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}");
+                         return messages.Select(x => new ChatworkSendResult(x, "12345"));
                      });
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
         
         // 最後まで実行できているかどうかを確認する。
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
+                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
+        _testFactory.Context
+                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()), Times.Once);
     }
 
     [Fact]
@@ -78,8 +82,8 @@ public class AggregateTest
                     .Throws<ApplicationException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
-                    .ReturnsAsync((string functionName, ChatworkMessage x) => new ChatworkSendResult(x, "123"));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
+                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
@@ -100,8 +104,8 @@ public class AggregateTest
                     .Throws<AzureRestApiException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
-                    .ReturnsAsync((string functionName, ChatworkMessage x) => new ChatworkSendResult(x, "123"));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
+                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
         
@@ -118,12 +122,12 @@ public class AggregateTest
     public async Task Test_Orchestrator_メッセージフォーマットに失敗した場合に送信した結果を取得できること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
                     .Throws<ApplicationException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
-                    .ReturnsAsync((string functionName, ChatworkMessage x) => new ChatworkSendResult(x, "123"));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
+                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
@@ -131,18 +135,18 @@ public class AggregateTest
 
         // 例外だけだとどのタイミングか判断できないので、明示的に失敗した機能まで実行されていることは確認する。
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
+                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
     }
 
     [Fact]
     public async Task Test_Orchestrator_メッセージ送信に失敗した場合に例外がスローされること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkMessage>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
                     .Throws<ArgumentException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<ChatworkSendResult>(SendChatworkActivityName, It.IsAny<ChatworkMessage>()))
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
                     .Throws<ApplicationException>();
 
         // Chatwork のメッセージ送信で失敗した場合はどうしようもないのでそのまま例外投げるだけ。

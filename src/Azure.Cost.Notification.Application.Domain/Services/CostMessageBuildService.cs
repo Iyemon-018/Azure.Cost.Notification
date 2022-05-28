@@ -10,12 +10,12 @@ public sealed class CostMessageBuildService : ICostMessageBuildService
         foreach (var costResult in totalCosts)
         {
             var title      = costResult.AsTitle();
-            var totalCost  = costResult.TotalCost();
+            var totalCost  = costResult.TotalCostJapaneseCurrency();
             var highAmount = costResult.AsResourcesCost();
 
             var builder = new MessageBuilder();
 
-            builder.Information.Add(title, $"合計: {totalCost:C2}{Environment.NewLine}[hr]{Environment.NewLine}利用料の高いリソース{Environment.NewLine}{highAmount}");
+            builder.Information.Add(title, $"合計: {totalCost}{Environment.NewLine}[hr]{Environment.NewLine}利用料の高いリソース{Environment.NewLine}{highAmount}");
 
             yield return new ChatworkMessage(builder.Build());
         }

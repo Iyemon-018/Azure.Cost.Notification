@@ -19,8 +19,8 @@ public sealed class Aggregate
             [OrchestrationTrigger] IDurableOrchestrationContext context
             , ILogger log)
     {
-        var                messages = Enumerable.Empty<ChatworkMessage>();
-        ChatworkSendResult sendResult;
+        var messages   = Enumerable.Empty<ChatworkMessage>();
+        var sendResult = Enumerable.Empty<ChatworkSendResult>();
 
         try
         {
@@ -54,10 +54,10 @@ public sealed class Aggregate
         finally
         {
             // TODO チャットに結果をまとめて送信する。
-            sendResult = await context.CallActivityAsync<ChatworkSendResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", messages);
+            sendResult = await context.CallActivityAsync<IEnumerable<ChatworkSendResult>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", messages);
         }
 
-        return sendResult.Log;
+        return sendResult.Logs();
     }
 
     [FunctionName($"{nameof(Aggregate)}_{nameof(HttpStart)}")]

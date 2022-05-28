@@ -15,7 +15,7 @@ public class CostMessageBuildServiceTest
     private readonly ITestOutputHelper _helper;
 
     private readonly CostMessageBuildService _target;
-
+    
     public CostMessageBuildServiceTest(ITestOutputHelper helper)
     {
         _helper = helper;
@@ -35,10 +35,10 @@ public class CostMessageBuildServiceTest
                        , new[]
                          {
                              $"[info][title]{today:yyyy/MM/dd} の利用料金(Daily)[/title]"
-                           + $"合計: ¥100.00{Environment.NewLine}"
+                           + $"合計: ￥100.00{Environment.NewLine}"
                            + $"[hr]{Environment.NewLine}"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Daily Group / 01010(Daily Cost) ¥100.00"
+                           + $"- Daily Group / 01010(Daily Cost) ￥100.00"
                            + $"[/info]"
                          }
                      };
@@ -55,22 +55,22 @@ public class CostMessageBuildServiceTest
                        , new[]
                          {
                              $"[info][title]{today:yyyy/MM/dd} の利用料金(Daily)[/title]"
-                           + $"合計: ¥100.00{Environment.NewLine}"
+                           + $"合計: ￥100.00{Environment.NewLine}"
                            + $"[hr]{Environment.NewLine}"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Daily Group / 01010(Daily Cost) ¥100.00"
+                           + $"- Daily Group / 01010(Daily Cost) ￥100.00"
                            + $"[/info]"
                            , $"[info][title]{today.AddDays(-6):yyyy/MM/dd} - {today:yyyy/MM/dd} の利用料金(Weekly)[/title]"
-                           + $"合計: ¥101.00{Environment.NewLine}"
+                           + $"合計: ￥101.00{Environment.NewLine}"
                            + $"[hr]{Environment.NewLine}"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Weekly Group / 21010(Weekly Cost) ¥101.00"
+                           + $"- Weekly Group / 21010(Weekly Cost) ￥101.00"
                            + $"[/info]"
                            , $"[info][title]今月の利用料金(Monthly)[/title]"
-                           + $"合計: ¥191.00{Environment.NewLine}"
+                           + $"合計: ￥191.00{Environment.NewLine}"
                            + $"[hr]{Environment.NewLine}"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Monthly Group / 21711(Monthly Cost) ¥191.00"
+                           + $"- Monthly Group / 21711(Monthly Cost) ￥191.00"
                            + $"[/info]"
                          }
                      };
@@ -80,7 +80,7 @@ public class CostMessageBuildServiceTest
     [MemberData(nameof(Get_Test_Build_Data))]
     public void Test_Build_通知メッセージのフォーマットがChatwork送信用に変換できるかどうか(TotalCostResult[] totalCosts, IEnumerable<string> expected)
     {
-        _target.Build(totalCosts).Select(x => $"{x}").Is(expected);
+        _target.Build(totalCosts).Select(x => $"{x}").ToArray().Is(expected);
         _helper.WriteLine(string.Join(Environment.NewLine, expected));
     }
 }

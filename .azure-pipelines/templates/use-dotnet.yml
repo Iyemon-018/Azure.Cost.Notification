@@ -1,0 +1,6 @@
+﻿steps:
+- task: UseDotNet@2
+  displayName: Use dotnet 6.x runtime
+  inputs:
+    packageType: 'sdk'
+    version: '6.x'

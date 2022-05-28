@@ -1,0 +1,23 @@
+﻿parameters:
+- name: targetProject
+  type: string
+  default: Azure.Cost.Notification.sln
+- name: buildConfiguration
+  type: string
+  default: Release
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: dotnet restore ${{ parameters.targetProject }}
+  inputs:
+    command: 'restore'
+    projects: ${{ parameters.targetProject }}
+    feedsToUse: 'select'
+    vstsFeed: 'd864e16a-e84c-4b9d-bc9b-8e5dc0ace65b'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet build ${{ parameters.targetProject }} --configuration ${{ parameters.buildConfiguration }}
+  inputs:
+    command: 'build'
+    projects: ${{ parameters.targetProject }}
+    arguments: '--configuration ${{ parameters.buildConfiguration }}'

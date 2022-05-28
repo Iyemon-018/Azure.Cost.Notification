@@ -1,4 +1,4 @@
-namespace Azure.Cost.Notification.Tests.Application.Domain.Models;
+ï»¿namespace Azure.Cost.Notification.Tests.Application.Domain.Models;
 
 using System;
 using System.Collections.Generic;
@@ -65,7 +65,7 @@ public class TotalCostResultTest
     }
 
     [Fact]
-    public void Test_TakeHighAmount_æ‚èo‚·”‚ª•‰‚Ì”‚Ìê‡‚É–ß‚è’l‚ªEmpty‚Å‚ ‚é‚±‚Æ()
+    public void Test_TakeHighAmount_å–ã‚Šå‡ºã™æ•°ãŒè² ã®æ•°ã®å ´åˆã«æˆ»ã‚Šå€¤ãŒEmptyã§ã‚ã‚‹ã“ã¨()
     {
         new TotalCostResult(new DailyCost(DateTime.UtcNow.Date, Build())).TakeHighAmount(-1).IsEmpty();
     }

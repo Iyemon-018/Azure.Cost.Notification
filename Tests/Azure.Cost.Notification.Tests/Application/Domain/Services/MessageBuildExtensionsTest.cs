@@ -62,11 +62,11 @@ public class MessageBuildExtensionsTest
                                    , new ResourceUsage(73.115m, "Low Group", "Lower Resource", "2500")
                                    , new ResourceUsage(9300.092230001m, "High Group", "Higher Resource", "7500")
                                  }))
-                         , $"- High Group / 9999(Highest Resource) ¥12,345.02{Environment.NewLine}"
-                         + $"- High Group / 7500(Higher Resource) ¥9,300.09{Environment.NewLine}"
-                         + $"- Middle Group / 5000(Middle Resource) ¥203.19{Environment.NewLine}"
-                         + $"- Low Group / 2500(Lower Resource) ¥73.12{Environment.NewLine}"
-                         + $"- Low Group / 0000(Lowest Resource) ¥0.05"
+                         , $"- High Group / 9999(Highest Resource) ￥12,345.02{Environment.NewLine}"
+                         + $"- High Group / 7500(Higher Resource) ￥9,300.09{Environment.NewLine}"
+                         + $"- Middle Group / 5000(Middle Resource) ￥203.19{Environment.NewLine}"
+                         + $"- Low Group / 2500(Lower Resource) ￥73.12{Environment.NewLine}"
+                         + $"- Low Group / 0000(Lowest Resource) ￥0.05"
                      };
 
         // リソース使用料データが４件あるケース
@@ -80,10 +80,10 @@ public class MessageBuildExtensionsTest
                                    , new ResourceUsage(73.115m, "Low Group", "Lower Resource", "2500")
                                    , new ResourceUsage(9300.092230001m, "High Group", "Higher Resource", "7500")
                                  }))
-                       , $"- High Group / 9999(Highest Resource) ¥12,345.02{Environment.NewLine}"
-                       + $"- High Group / 7500(Higher Resource) ¥9,300.09{Environment.NewLine}"
-                       + $"- Low Group / 2500(Lower Resource) ¥73.12{Environment.NewLine}"
-                       + $"- Low Group / 0000(Lowest Resource) ¥0.05"
+                       , $"- High Group / 9999(Highest Resource) ￥12,345.02{Environment.NewLine}"
+                       + $"- High Group / 7500(Higher Resource) ￥9,300.09{Environment.NewLine}"
+                       + $"- Low Group / 2500(Lower Resource) ￥73.12{Environment.NewLine}"
+                       + $"- Low Group / 0000(Lowest Resource) ￥0.05"
                      };
         
         // リソース使用料データが６件あるケース
@@ -99,11 +99,11 @@ public class MessageBuildExtensionsTest
                                    , new ResourceUsage(9300.092230001m, "High Group", "Higher Resource", "7500")
                                    , new ResourceUsage(780.028m, "Middle Group", "Middle Resource", "5000")
                                  }))
-                       , $"- High Group / 9999(Highest Resource) ¥12,345.02{Environment.NewLine}"
-                       + $"- High Group / 7500(Higher Resource) ¥9,300.09{Environment.NewLine}"
-                       + $"- Middle Group / 5000(Middle Resource) ¥780.03{Environment.NewLine}"
-                       + $"- Middle Group / 5000(Middle Resource) ¥203.19{Environment.NewLine}"
-                       + $"- Low Group / 2500(Lower Resource) ¥73.12"
+                       , $"- High Group / 9999(Highest Resource) ￥12,345.02{Environment.NewLine}"
+                       + $"- High Group / 7500(Higher Resource) ￥9,300.09{Environment.NewLine}"
+                       + $"- Middle Group / 5000(Middle Resource) ￥780.03{Environment.NewLine}"
+                       + $"- Middle Group / 5000(Middle Resource) ￥203.19{Environment.NewLine}"
+                       + $"- Low Group / 2500(Lower Resource) ￥73.12"
                      };
 
         // リソース使用料データが０件あるケース

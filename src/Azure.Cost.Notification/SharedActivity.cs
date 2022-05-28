@@ -111,8 +111,9 @@ public sealed class SharedActivity
     /// <returns>送信結果を返します。</returns>
     /// <exception cref="NotImplementedException"></exception>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(SendChatwork)}")]
-    public async Task<ChatworkSendResult> SendChatwork([ActivityTrigger] IEnumerable<ChatworkMessage> message, ILogger log)
+    public async Task<IEnumerable<ChatworkSendResult>> SendChatwork([ActivityTrigger] IEnumerable<ChatworkMessage> message, ILogger log)
     {
+        //TODO ここを実装する。
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
         throw new NotImplementedException();
     }

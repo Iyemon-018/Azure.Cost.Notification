@@ -1,4 +1,4 @@
-# Starter pipeline
+﻿# Starter pipeline
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -13,55 +13,16 @@ trigger:
     - docs/**/*.*
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 variables:
   buildConfiguration: 'Debug'
 
 steps:
-- task: UseDotNet@2
-  displayName: Use dotnet 6.x runtime
-  inputs:
-    packageType: 'sdk'
-    version: '6.x'
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet restore Azure.Cost.Notification.sln
-  inputs:
-    command: 'restore'
-    projects: 'Azure.Cost.Notification.sln'
-    feedsToUse: 'select'
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet build Azure.Cost.Notification.sln --configuration $(buildConfiguration)
-  inputs:
-    command: 'build'
-    projects: 'Azure.Cost.Notification.sln'
-    arguments: '--configuration $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  displayName: dotnet build Azure.Cost.Notification.sln --configuration $(buildConfiguration) --no-build
-  inputs:
-    command: 'test'
-    projects: '**/*.Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build'
-
-# cf. https://docs.microsoft.com/ja-jp/dotnet/core/testing/unit-testing-code-coverage?tabs=linux
-- task: DotNetCoreCLI@2
-  displayName: dotnet test --configuration $(buildConfiguration) --no-build --collect:"XPlat Code Coverage"
-  inputs:
-    command: 'test'
-    projects: '**/*.Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build --collect:"XPlat Code Coverage"'
-
-- task: PublishTestResults@2
-  displayName: Publish test result **/coverage.cobertura.xml
-  inputs:
-    testResultsFormat: 'XUnit'
-    testResultsFiles: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-
-- task: reportgenerator@5
-  displayName: ReportGenerator **/coverage.cobertura.xml
-  inputs:
-    reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-    targetdir: 'coveragereport'
+- template: templates/use-dotnet.yml
+- template: templates/dotnet-build.yml
+  parameters:
+    buildConfiguration: $(buildConfiguration)
+- template: templates/dotnet-test.yml
+  parameters:
+    buildConfiguration: $(buildConfiguration)

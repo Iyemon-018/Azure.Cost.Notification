@@ -1,5 +1,6 @@
 ﻿namespace Azure.Cost.Notification.Application.Domain.Models;
 
+using Notification.Domain;
 using Notification.Domain.ValueObjects;
 
 /// <summary>
@@ -63,4 +64,10 @@ public sealed class TotalCostResult
     /// </summary>
     /// <returns>リソースの合計金額を返します。</returns>
     public decimal TotalCost() => _usage.Sum(x => x.Cost);
+
+    /// <summary>
+    /// すべてのリソースの合計金額を日本通貨の書式で取得します。
+    /// </summary>
+    /// <returns>リソースの合計金額を返します。</returns>
+    public string TotalCostJapaneseCurrency() => TotalCost().ToString("C2", Constants.CultureJapanese);
 }

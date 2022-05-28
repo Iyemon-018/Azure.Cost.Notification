@@ -1,0 +1,36 @@
+﻿parameters:
+- name: targetProject
+  type: string
+  default: Azure.Cost.Notification.sln
+- name: buildConfiguration
+  type: string
+  default: Release
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: dotnet build ${{ parameters.targetProject }} --configuration ${{ parameters.buildConfiguration }} --no-build
+  inputs:
+    command: 'test'
+    projects: '**/*.Tests/*.csproj'
+    arguments: '--configuration ${{ parameters.buildConfiguration }} --no-build'
+
+# cf. https://docs.microsoft.com/ja-jp/dotnet/core/testing/unit-testing-code-coverage?tabs=linux
+- task: DotNetCoreCLI@2
+  displayName: dotnet test --configuration ${{ parameters.buildConfiguration }} --no-build --collect:"XPlat Code Coverage"
+  inputs:
+    command: 'test'
+    projects: '**/Azure.Cost.Notification.Tests/Azure.Cost.Notification.Tests.csproj'
+    arguments: '--configuration ${{ parameters.buildConfiguration }} --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    publishTestResults: true
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    failIfCoverageEmpty: true
+
+- task: reportgenerator@5
+  displayName: ReportGenerator $(Agent.TempDirectory)/**/coverage.cobertura.xml
+  inputs:
+    reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    targetdir: 'coveragereport'

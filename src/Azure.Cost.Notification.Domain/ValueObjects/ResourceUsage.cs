@@ -12,6 +12,8 @@ public sealed class ResourceUsage : ValueObjectBase<ResourceUsage>, IResourceUsa
 
     public decimal Cost { get; }
 
+    public string CostJapaneseCurrency() => Cost.ToString("C2", Constants.CultureJapanese);
+
     public string ResourceGroupName { get; }
 
     public string ServiceName { get; }
