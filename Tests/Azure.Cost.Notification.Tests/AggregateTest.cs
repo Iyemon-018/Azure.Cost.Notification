@@ -12,9 +12,12 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Notification.Application.Domain.Models;
 using Xunit;
+using Xunit.Abstractions;
 
 public class AggregateTest
 {
+    private readonly ITestOutputHelper _outputHelper;
+
     private static readonly string GetAccessTokenActivityName = $"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}";
 
     private static readonly string SendChatworkActivityName = $"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}";
@@ -33,9 +36,10 @@ public class AggregateTest
 
     private readonly TestFactory _testFactory = new();
 
-    public AggregateTest()
+    public AggregateTest(ITestOutputHelper _outputHelper)
     {
-        _target = new Aggregate();
+        this._outputHelper = _outputHelper;
+        _target            = new Aggregate();
     }
 
     private sealed class TestFactory
@@ -66,7 +70,7 @@ public class AggregateTest
                      });
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
-        
+
         // 最後まで実行できているかどうかを確認する。
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
@@ -108,7 +112,7 @@ public class AggregateTest
                     .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
-        
+
         Assert.Contains("Azure 利用料金の通知に失敗しました。", result);
 
         // 例外だけだとどのタイミングか判断できないので、明示的に失敗した機能まで実行されていることは確認する。
@@ -151,6 +155,28 @@ public class AggregateTest
 
         // Chatwork のメッセージ送信で失敗した場合はどうしようもないのでそのまま例外投げるだけ。
         (await Record.ExceptionAsync(() => _target.Orchestrator(_testFactory.Context.Object, _logger.Object)))
-                    .IsInstanceOf<ApplicationException>();
+               .IsInstanceOf<ApplicationException>();
+    }
+
+    [Fact]
+    public async Task Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること()
+    {
+        var messageId = $"{DateTime.Now:ssfffMM}";
+        _testFactory.Context
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
+                    .ReturnsAsync(() => new[] {new ChatworkMessage(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること))});
+        _testFactory.Context
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
+                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) =>
+                     {
+                         messages.Count().Is(1);
+                         messages.First().ToString().Is(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること));
+                         return messages.Select(x => new ChatworkSendResult(x, messageId));
+                     });
+
+        var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
+
+        result.Is(new ChatworkSendResult(new ChatworkMessage(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること)), messageId).Log);
+        _outputHelper.WriteLine(result);
     }
 }
