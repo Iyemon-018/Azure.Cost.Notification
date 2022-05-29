@@ -18,13 +18,17 @@ public sealed class SharedActivity
 
     private readonly ICostMessageBuildService _costMessageBuildService;
 
+    private readonly ISendMessageService _sendMessageService;
+
     public SharedActivity(IAccessTokenRequestService accessTokenRequestService
-                        , IUsageCostRequestService usageCostRequestService
-                        , ICostMessageBuildService costMessageBuildService)
+                        , IUsageCostRequestService   usageCostRequestService
+                        , ICostMessageBuildService   costMessageBuildService
+                        , ISendMessageService        sendMessageService)
     {
         _accessTokenRequestService = accessTokenRequestService;
         _usageCostRequestService   = usageCostRequestService;
         _costMessageBuildService   = costMessageBuildService;
+        _sendMessageService        = sendMessageService;
     }
 
     /// <summary>
@@ -115,7 +119,8 @@ public sealed class SharedActivity
     {
         //TODO ここを実装する。
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
-        throw new NotImplementedException();
+
+        return await _sendMessageService.ExecuteAsync(message);
     }
 
 }
