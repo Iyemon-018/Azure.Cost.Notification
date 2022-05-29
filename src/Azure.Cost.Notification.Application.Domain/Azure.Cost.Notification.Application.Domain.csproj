@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Azure.Cost.Notification.Domain\Azure.Cost.Notification.Domain.csproj" />
+    <ProjectReference Include="..\Azure.Cost.Notification.Infrastructure.ChatworkApi\Azure.Cost.Notification.Infrastructure.ChatworkApi.csproj" />
     <ProjectReference Include="..\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj" />
   </ItemGroup>
 
@@ -19,10 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="ChatworkApi" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

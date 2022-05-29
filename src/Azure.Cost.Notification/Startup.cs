@@ -6,7 +6,6 @@ namespace Azure.Cost.Notification;
 using System.Globalization;
 using System.Net.Http;
 using Application.Domain.Services;
-using Infrastructure.RestApi;
 using Microsoft.Extensions.DependencyInjection;
 
 public sealed class Startup : FunctionsStartup
@@ -20,9 +19,11 @@ public sealed class Startup : FunctionsStartup
     {
         builder.Services.AddHttpClient();
 
-        builder.Services.AddSingleton<IUnitOfWork>(x => Factories.UnitOfWork(x.GetService<HttpClient>()));
+        builder.Services.AddSingleton<Infrastructure.RestApi.IUnitOfWork>(x => Infrastructure.RestApi.Factories.UnitOfWork(x.GetService<HttpClient>()));
+        builder.Services.AddSingleton<Infrastructure.ChatworkApi.IUnitOfWork>(x => Infrastructure.ChatworkApi.Factories.UnitOfWork(x.GetService<HttpClient>()));
         builder.Services.AddSingleton<IAccessTokenRequestService, AccessTokenRequestService>();
         builder.Services.AddSingleton<IUsageCostRequestService, UsageCostRequestService>();
         builder.Services.AddSingleton<ICostMessageBuildService, CostMessageBuildService>();
+        builder.Services.AddSingleton<ISendMessageService, SendMessageService>();
     }
 }

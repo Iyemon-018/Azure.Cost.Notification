@@ -104,7 +104,7 @@ public sealed class SharedActivity
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(FormatChatworkMessage)}] ");
 
-        return _costMessageBuildService.Build(totalCosts);
+        return _costMessageBuildService.Build(totalCosts, TODO);
     }
 
     /// <summary>
