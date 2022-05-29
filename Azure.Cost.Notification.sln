@@ -11,19 +11,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugs", "Debugs", "{02CF05
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification", "src\Azure.Cost.Notification\Azure.Cost.Notification.csproj", "{4B4BB936-A04E-4776-9741-B92B0DE1FC65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Debug", "Debugs\Azure.Cost.Notification.Debug\Azure.Cost.Notification.Debug.csproj", "{EF91602C-8DF4-4848-A4B8-BF6591FDB53B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Debug", "Debugs\Azure.Cost.Notification.Debug\Azure.Cost.Notification.Debug.csproj", "{EF91602C-8DF4-4848-A4B8-BF6591FDB53B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Tests", "Tests\Azure.Cost.Notification.Tests\Azure.Cost.Notification.Tests.csproj", "{961C8472-6525-4EE5-BDB0-77F5CA27AABB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Tests", "Tests\Azure.Cost.Notification.Tests\Azure.Cost.Notification.Tests.csproj", "{961C8472-6525-4EE5-BDB0-77F5CA27AABB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.RestApi.CostManagement", "src\Azure.RestApi.CostManagement\Azure.RestApi.CostManagement.csproj", "{E180F6DA-D91B-4922-8F9F-6D03B9163360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.RestApi.CostManagement", "src\Azure.RestApi.CostManagement\Azure.RestApi.CostManagement.csproj", "{E180F6DA-D91B-4922-8F9F-6D03B9163360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Application.Domain", "src\Azure.Cost.Notification.Application.Domain\Azure.Cost.Notification.Application.Domain.csproj", "{8ADE6174-A656-40B4-B44E-877EB2804160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Application.Domain", "src\Azure.Cost.Notification.Application.Domain\Azure.Cost.Notification.Application.Domain.csproj", "{8ADE6174-A656-40B4-B44E-877EB2804160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Domain", "src\Azure.Cost.Notification.Domain\Azure.Cost.Notification.Domain.csproj", "{94A26D2E-F4DC-41E7-8217-C2240C1776F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Domain", "src\Azure.Cost.Notification.Domain\Azure.Cost.Notification.Domain.csproj", "{94A26D2E-F4DC-41E7-8217-C2240C1776F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Infrastructure.RestApi", "src\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj", "{17C5462E-2C21-4557-9CE2-564DAB04F6B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Infrastructure.RestApi", "src\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj", "{17C5462E-2C21-4557-9CE2-564DAB04F6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.RestApi.Tests", "Tests\Azure.RestApi.Tests\Azure.RestApi.Tests.csproj", "{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.RestApi.Tests", "Tests\Azure.RestApi.Tests\Azure.RestApi.Tests.csproj", "{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Infrastructure.ChatworkApi", "src\Azure.Cost.Notification.Infrastructure.ChatworkApi\Azure.Cost.Notification.Infrastructure.ChatworkApi.csproj", "{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{94A26D2E-F4DC-41E7-8217-C2240C1776F6} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
 		{17C5462E-2C21-4557-9CE2-564DAB04F6B1} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
 		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7} = {0E370D3C-16F9-4C5E-81AD-7DB51B5EFE19}
+		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B497537C-7221-4195-9CED-2A09347B7AE9}
