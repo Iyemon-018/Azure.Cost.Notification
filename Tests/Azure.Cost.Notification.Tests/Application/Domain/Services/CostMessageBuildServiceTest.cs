@@ -80,7 +80,7 @@ public class CostMessageBuildServiceTest
     [MemberData(nameof(Get_Test_Build_Data))]
     public void Test_Build_通知メッセージのフォーマットがChatwork送信用に変換できるかどうか(TotalCostResult[] totalCosts, IEnumerable<string> expected)
     {
-        _target.Build(totalCosts, TODO).Select(x => $"{x}").ToArray().Is(expected);
+        _target.Build(87920, totalCosts).Select(x => $"{x}").ToArray().Is(expected);
         _helper.WriteLine(string.Join(Environment.NewLine, expected));
     }
 }

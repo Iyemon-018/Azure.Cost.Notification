@@ -22,6 +22,9 @@ public sealed class Aggregate
         var messages   = Enumerable.Empty<ChatworkMessage>();
         var sendResult = Enumerable.Empty<ChatworkSendResult>();
 
+        // TODO パラメータから取得する。
+        var roomId = 0;
+
         try
         {
             // TODO アクセストークンを取得する。
@@ -42,13 +45,13 @@ public sealed class Aggregate
             var totalCostResults = await Task.WhenAll(collectTasks);
 
             // TODO 送信用のメッセージ形式にフォーマットする。
-            messages = await context.CallActivityAsync<IEnumerable<ChatworkMessage>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", totalCostResults);
+            messages = await context.CallActivityAsync<IEnumerable<ChatworkMessage>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", (roomId, totalCostResults));
         }
         catch (Exception e)
         {
             // 失敗した場合でもチャットに失敗したことの通知は出したい。
             // でなければ成功したのか、実行されていないのか判断できないので。
-            messages = new[] {new ChatworkMessage("Azure 利用料金の通知に失敗しました。")};
+            messages = new[] {new ChatworkMessage(roomId, "Azure 利用料金の通知に失敗しました。")};
             log.LogError(e, $"Failed aggregate azure cost.[{messages}]");
         }
         finally

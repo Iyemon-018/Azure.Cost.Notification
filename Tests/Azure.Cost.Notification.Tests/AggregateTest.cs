@@ -56,8 +56,8 @@ public class AggregateTest
     public async Task Test_Orchestrator_集計した情報を送信した結果を取得できること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
-                    .ReturnsAsync(() => new[] {new ChatworkMessage($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}")});
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()))
+                    .ReturnsAsync(() => new[] {new ChatworkMessage(98878, $"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}")});
 
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
@@ -73,7 +73,7 @@ public class AggregateTest
 
         // 最後まで実行できているかどうかを確認する。
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
+                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()), Times.Once);
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()), Times.Once);
     }
@@ -126,7 +126,7 @@ public class AggregateTest
     public async Task Test_Orchestrator_メッセージフォーマットに失敗した場合に送信した結果を取得できること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()))
                     .Throws<ApplicationException>();
 
         _testFactory.Context
@@ -139,14 +139,14 @@ public class AggregateTest
 
         // 例外だけだとどのタイミングか判断できないので、明示的に失敗した機能まで実行されていることは確認する。
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()), Times.Once);
+                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()), Times.Once);
     }
 
     [Fact]
     public async Task Test_Orchestrator_メッセージ送信に失敗した場合に例外がスローされること()
     {
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()))
                     .Throws<ArgumentException>();
 
         _testFactory.Context
@@ -163,8 +163,8 @@ public class AggregateTest
     {
         var messageId = $"{DateTime.Now:ssfffMM}";
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<TotalCostResult[]>()))
-                    .ReturnsAsync(() => new[] {new ChatworkMessage(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること))});
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()))
+                    .ReturnsAsync(() => new[] {new ChatworkMessage(118772, nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること))});
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
                     .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) =>
@@ -176,7 +176,7 @@ public class AggregateTest
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
-        result.Is(new ChatworkSendResult(new ChatworkMessage(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること)), messageId).Log);
+        result.Is(new ChatworkSendResult(new ChatworkMessage(118772, nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること)), messageId).Log);
         _outputHelper.WriteLine(result);
     }
 }

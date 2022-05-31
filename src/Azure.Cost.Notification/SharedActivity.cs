@@ -98,13 +98,15 @@ public sealed class SharedActivity
     /// </summary>
     /// <param name="totalCosts">収集した利用料金情報の配列</param>
     /// <param name="log"></param>
+    /// <param name="roomId"></param>
     /// <returns>送信するためのメッセージ情報を返します。</returns>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(FormatChatworkMessage)}")]
-    public IEnumerable<ChatworkMessage> FormatChatworkMessage([ActivityTrigger] TotalCostResult[] totalCosts, ILogger log)
+    public IEnumerable<ChatworkMessage> FormatChatworkMessage([ActivityTrigger]IDurableActivityContext context, ILogger log)
     {
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(FormatChatworkMessage)}] ");
 
-        return _costMessageBuildService.Build(totalCosts, TODO);
+        (int roomId, TotalCostResult[] totalCosts) parameter = context.GetInput<(int, TotalCostResult[])>();
+        return _costMessageBuildService.Build(parameter.roomId, parameter.totalCosts);
     }
 
     /// <summary>
