@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ChainingAssertion;
 using Domain.ValueObjects;
@@ -105,7 +107,7 @@ public class AggregateTest
     {
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<TotalCostResult>(WeeklyTotalCostActivityName, It.IsAny<string>()))
-                    .Throws<AzureRestApiException>();
+                    .Throws(new AzureRestApiException(HttpStatusCode.Unauthorized, new Uri("https://microsoft.com"), new HttpRequestMessage(), string.Empty));
 
         _testFactory.Context
                     .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))

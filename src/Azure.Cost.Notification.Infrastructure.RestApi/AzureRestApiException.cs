@@ -18,7 +18,7 @@ public sealed class AzureRestApiException : Exception
         _uri            = uri;
         _requestMessage = requestMessage;
     }
-
+    
     public HttpStatusCode StatusCode => _statusCode;
 
     public Uri Uri1 => _uri;
