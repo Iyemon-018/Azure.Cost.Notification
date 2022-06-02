@@ -119,7 +119,6 @@ public sealed class SharedActivity
     [FunctionName($"{nameof(SharedActivity)}_{nameof(SendChatwork)}")]
     public async Task<IEnumerable<ChatworkSendResult>> SendChatwork([ActivityTrigger] IEnumerable<ChatworkMessage> message, ILogger log)
     {
-        //TODO ここを実装する。
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
 
         var result = new List<ChatworkSendResult>();
