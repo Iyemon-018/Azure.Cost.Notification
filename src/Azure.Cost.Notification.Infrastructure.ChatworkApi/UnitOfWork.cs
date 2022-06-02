@@ -1,5 +1,6 @@
 ﻿namespace Azure.Cost.Notification.Infrastructure.ChatworkApi;
 
+using Domain.Repositories;
 using global::ChatworkApi;
 using Repositories;
 

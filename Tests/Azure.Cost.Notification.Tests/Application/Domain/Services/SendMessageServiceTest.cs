@@ -8,6 +8,7 @@ using ChainingAssertion;
 using Infrastructure.ChatworkApi;
 using Moq;
 using Notification.Application.Domain.Services;
+using Notification.Domain.Repositories;
 using Notification.Domain.ValueObjects;
 using Xunit;
 

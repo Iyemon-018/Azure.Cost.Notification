@@ -1,6 +1,7 @@
 ﻿namespace Azure.Cost.Notification.Application.Domain.Services;
 
 using Infrastructure.ChatworkApi;
+using Notification.Domain.Repositories;
 using Notification.Domain.ValueObjects;
 
 public sealed class SendMessageService : ISendMessageService
