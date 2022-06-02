@@ -1,11 +1,22 @@
 ﻿namespace Azure.Cost.Notification.Application.Domain.Services;
 
+using Infrastructure.ChatworkApi;
 using Notification.Domain.ValueObjects;
 
 public sealed class SendMessageService : ISendMessageService
 {
-    public Task<IEnumerable<ChatworkSendResult>> ExecuteAsync(IEnumerable<ChatworkMessage> message)
+    private readonly IMessageSendRepository _messageSendRepository;
+
+    public SendMessageService(IUnitOfWork unitOfWork)
     {
-        throw new NotImplementedException();
+        _messageSendRepository = unitOfWork.MessageSendRepository;
+    }
+
+    public async IAsyncEnumerable<ChatworkSendResult> ExecuteAsync(IEnumerable<ChatworkMessage> message)
+    {
+        foreach (var m in message)
+        {
+            yield return await _messageSendRepository.SendAsync(m).ConfigureAwait(false);
+        }
     }
 }

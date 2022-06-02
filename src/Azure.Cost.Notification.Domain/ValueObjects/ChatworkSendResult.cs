@@ -24,11 +24,12 @@ public sealed class ChatworkMessage : ValueObjectBase<ChatworkMessage>
     }
 }
 
+// TODO わけたい
 public sealed class ChatworkSendResult : ValueObjectBase<ChatworkSendResult>
 {
     public ChatworkSendResult(ChatworkMessage message, string messageId)
     {
-        Log = $"Send [{messageId}] {message}";
+        Log = $"Send:{messageId}, Room:{message.RoomId}, {message}";
     }
 
     public string Log { get; }

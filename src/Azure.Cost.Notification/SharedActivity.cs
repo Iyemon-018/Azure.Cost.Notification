@@ -122,7 +122,14 @@ public sealed class SharedActivity
         //TODO ここを実装する。
         log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
 
-        return await _sendMessageService.ExecuteAsync(message);
+        var result = new List<ChatworkSendResult>();
+
+        await foreach (var sendResult in _sendMessageService.ExecuteAsync(message))
+        {
+            result.Add(sendResult);
+        }
+
+        return result;
     }
 
 }

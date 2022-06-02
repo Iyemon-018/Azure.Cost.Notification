@@ -4,5 +4,5 @@ using Notification.Domain.ValueObjects;
 
 public interface ISendMessageService
 {
-    Task<IEnumerable<ChatworkSendResult>> ExecuteAsync(IEnumerable<ChatworkMessage> message);
+    IAsyncEnumerable<ChatworkSendResult> ExecuteAsync(IEnumerable<ChatworkMessage> message);
 }
