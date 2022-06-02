@@ -33,5 +33,5 @@ public sealed class AzureResponse<T> where T : class
 
     public Uri? RequestUri { get; }
 
-    public string ErrorMessage => _error.ToString()!;
+    public string ErrorMessage => _error?.ToString()!;
 }

@@ -11,20 +11,17 @@ public sealed class AzureRestApiException : Exception
 
     private readonly HttpRequestMessage _requestMessage;
 
-    public AzureRestApiException()
-    {
-        
-    }
-
-    public AzureRestApiException(string message) : base(message)
-    {
-    }
-
     public AzureRestApiException(HttpStatusCode statusCode, Uri uri, HttpRequestMessage requestMessage, string message)
-            : this(message)
+            : base(message)
     {
         _statusCode     = statusCode;
         _uri            = uri;
         _requestMessage = requestMessage;
     }
+
+    public HttpStatusCode StatusCode => _statusCode;
+
+    public Uri Uri1 => _uri;
+
+    public HttpRequestMessage RequestMessage => _requestMessage;
 }

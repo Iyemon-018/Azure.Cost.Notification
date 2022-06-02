@@ -15,7 +15,7 @@ internal static class QueryResultConverter
 
     internal static ResourceUsage AsResourceUsage(this JsonElement[] self, CostManagementQueryColumnPosition position)
         => new(cost: self[position.PreTaxCostIndex].GetDecimal()
-              , resourceGroupName: self[position.ResourceGroupNameIndex].GetString()
-              , serviceName: self[position.ServiceNameIndex].GetString()
-              , id: self[position.ResourceIdIndex].GetString().Split('/').Last());
+              , resourceGroupName: self[position.ResourceGroupNameIndex].GetString() ?? string.Empty
+              , serviceName: self[position.ServiceNameIndex].GetString() ?? string.Empty
+              , id: (self[position.ResourceIdIndex].GetString() ?? string.Empty).Split('/').Last());
 }
