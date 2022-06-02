@@ -12,7 +12,7 @@ await using var stream = File.OpenRead(Path.Combine(Environment.CurrentDirectory
 var appSettings = await JsonSerializer.DeserializeAsync<AppSettings>(stream).ConfigureAwait(false);
 
 var unitOfWork = Factories.UnitOfWork(new HttpClient());
-var accessToken = await unitOfWork.LoginRepository.Authenticate(tenantId: appSettings.TenantId
+var accessToken = await unitOfWork.LoginRepository.Authenticate(tenantId: appSettings!.TenantId
                                          , clientId: appSettings.ClientId
                                          , clientSecret: appSettings.ClientSecret)
                                   .ConfigureAwait(false);

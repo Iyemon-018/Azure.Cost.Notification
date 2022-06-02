@@ -50,7 +50,7 @@ internal sealed class ResourceUsageRepository : IResourceUsageRepository
         var body   = QueryUsageRequestBuilder.ToWeekly(target);
         var usages = await GetCostAsync(subscriptionId, body).ConfigureAwait(false);
 
-        return new WeeklyCost(body.timePeriod.from, body.timePeriod.to, usages);
+        return new WeeklyCost(body.timePeriod!.from, body.timePeriod.to, usages);
     }
 
     public async Task<MonthlyCost> GetMonthlyCostAsync(string subscriptionId)

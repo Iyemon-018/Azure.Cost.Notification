@@ -12,7 +12,7 @@ public sealed class AzureResponse<T> where T : class
         Content        = content;
         StatusCode     = statusCode;
         RequestMessage = requestMessage;
-        RequestUri     = requestMessage.RequestUri;
+        RequestUri     = requestMessage.RequestUri!;
         IsSuccess      = true;
     }
 
@@ -31,7 +31,7 @@ public sealed class AzureResponse<T> where T : class
 
     public HttpRequestMessage RequestMessage { get; }
 
-    public Uri? RequestUri { get; }
+    public Uri RequestUri { get; }
 
     public string ErrorMessage => _error?.ToString()!;
 }
