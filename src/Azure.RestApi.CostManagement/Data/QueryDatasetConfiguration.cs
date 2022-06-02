@@ -8,5 +8,5 @@
 /// </remarks>
 public sealed class QueryDatasetConfiguration
 {
-    public string[] columns { get; set; }
+    public string[]? columns { get; set; }
 }

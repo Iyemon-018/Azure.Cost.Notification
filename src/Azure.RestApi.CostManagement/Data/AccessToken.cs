@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 
 public sealed class AccessToken
 {
-    public string token_type { get; set; }
+    public string token_type { get; set; } = null!;
 
     public int expires_in { get; set; }
 
@@ -14,9 +14,9 @@ public sealed class AccessToken
 
     public long not_before { get; set; }
 
-    public string resource { get; set; }
+    public string resource { get; set; } = null!;
 
-    public string access_token { get; set; }
+    public string access_token { get; set; } = null!;
 
     internal AuthenticationHeaderValue AsHeaderValue() => new(token_type, access_token);
 }

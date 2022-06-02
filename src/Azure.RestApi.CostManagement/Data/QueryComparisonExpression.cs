@@ -10,11 +10,11 @@ using System.Runtime.Serialization;
 /// </remarks>
 public sealed class QueryComparisonExpression
 {
-    public string name { get; set; }
+    public string? name { get; set; }
 
 
     [DataMember(Name = "operator")]
     public QueryOperatorType operatorType { get; set; }
 
-    public string[] values { get; set; }
+    public string[]? values { get; set; }
 }

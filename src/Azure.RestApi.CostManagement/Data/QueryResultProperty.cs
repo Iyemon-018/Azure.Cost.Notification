@@ -4,12 +4,12 @@ using System.Text.Json;
 
 public sealed class QueryResultProperty
 {
-    public string nextLink { get; set; }
+    public string nextLink { get; set; } = null!;
 
-    public QueryColumn[] columns { get; set; }
+    public QueryColumn[] columns { get; set; } = null!;
 
-    public JsonElement[][] rows { get; set; }
-    
+    public JsonElement[][] rows { get; set; } = null!;
+
     /// <summary>
     /// <seealso cref="nextLink"/> が定義されている場合に skiptoken の値を取得します。
     /// </summary>

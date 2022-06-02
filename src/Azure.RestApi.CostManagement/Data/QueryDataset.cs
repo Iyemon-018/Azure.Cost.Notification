@@ -8,13 +8,13 @@
 /// </remarks>
 public sealed class QueryDataset
 {
-    public QueryAggregationDictionary aggregation { get; set; }
+    public QueryAggregationDictionary? aggregation { get; set; }
 
-    public QueryDatasetConfiguration configuration { get; set; }
+    public QueryDatasetConfiguration? configuration { get; set; }
 
-    public QueryFilter filter { get; set; }
+    public QueryFilter? filter { get; set; }
 
     public GranularityType granularity { get; set; }
 
-    public QueryGrouping[] grouping { get; set; }
+    public QueryGrouping[]? grouping { get; set; }
 }

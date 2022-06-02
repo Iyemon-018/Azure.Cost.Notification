@@ -5,7 +5,7 @@ using Data;
 
 public sealed class AzureResponse<T> where T : class
 {
-    private readonly ErrorResponse _error;
+    private readonly ErrorResponse? _error;
 
     public AzureResponse(T content, HttpStatusCode statusCode, HttpRequestMessage requestMessage)
     {
@@ -31,7 +31,7 @@ public sealed class AzureResponse<T> where T : class
 
     public HttpRequestMessage RequestMessage { get; }
 
-    public Uri RequestUri { get; }
+    public Uri? RequestUri { get; }
 
     public string ErrorMessage => _error.ToString()!;
 }

@@ -8,7 +8,7 @@
 /// </remarks>
 public sealed class ErrorDetails
 {
-    public string code { get; set; }
+    public string code { get; set; } = null!;
 
-    public string message { get; set; }
+    public string message { get; set; } = null!;
 }

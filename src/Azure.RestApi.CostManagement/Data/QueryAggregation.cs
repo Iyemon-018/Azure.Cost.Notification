@@ -10,7 +10,7 @@ public sealed class QueryAggregation
 {
     public FunctionType function { get; set; }
 
-    public string name { get; set; }
+    public string name { get; set; } = null!;
 
     public static QueryAggregation Default() => new() {function = FunctionType.Sum, name = "PreTaxCost"};
 }

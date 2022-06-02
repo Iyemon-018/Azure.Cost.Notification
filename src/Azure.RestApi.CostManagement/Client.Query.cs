@@ -8,9 +8,9 @@ public partial class Client : IQuery
 {
     async Task<AzureResponse<QueryResult>> IQuery.UsageAsync(QueryScope            scope
                                                            , QueryUsageRequestBody body
-                                                           , string                skipToken         = default!
-                                                           , string?               apiVersion        = default
-                                                           , CancellationToken     cancellationToken = default)
+                                                           , string                skipToken
+                                                           , string?               apiVersion
+                                                           , CancellationToken     cancellationToken)
     {
         var uri      = $"https://management.azure.com/{scope}/providers/Microsoft.CostManagement/query?api-version={apiVersion ?? Constants.LatestVersion}{(string.IsNullOrEmpty(skipToken) ? string.Empty: $"$skiptoken={skipToken}")}";
         var request  = RestApiRequest<QueryUsageRequestBody>.AsStringContent(uri, body);

@@ -8,13 +8,13 @@ public sealed class AccessTokenRequestBody
     public GrantType grantType { get; set; }
 
     [DataMember(Name = "client_id")]
-    public string clientId { get; set; }
+    public string clientId { get; set; } = null!;
 
     [DataMember(Name = "client_secret")]
-    public string clientSecret { get; set; }
+    public string clientSecret { get; set; } = null!;
 
     [DataMember(Name = "resource")]
-    public string resource { get; set; }
+    public string resource { get; set; } = null!;
 
     public static AccessTokenRequestBody AsClientCredentials(string clientId, string clientSecret)
         => new()

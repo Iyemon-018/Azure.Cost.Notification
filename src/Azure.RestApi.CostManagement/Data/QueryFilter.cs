@@ -8,11 +8,12 @@
 /// </remarks>
 public sealed class QueryFilter
 {
-    public QueryFilter[] and { get; set; }
 
-    public QueryComparisonExpression dimensions { get; set; }
+    public QueryFilter[]? and { get; set; }
 
-    public QueryFilter[] or { get; set; }
+    public QueryComparisonExpression? dimensions { get; set; }
 
-    public QueryComparisonExpression tags { get; set; }
+    public QueryFilter[]? or { get; set; }
+
+    public QueryComparisonExpression? tags { get; set; }
 }

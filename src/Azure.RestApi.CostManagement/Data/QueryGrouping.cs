@@ -8,7 +8,7 @@
 /// </remarks>
 public sealed class QueryGrouping
 {
-    public string name { get; set; }
+    public string name { get; set; } = null!;
 
     public QueryColumnType type { get; set; }
 

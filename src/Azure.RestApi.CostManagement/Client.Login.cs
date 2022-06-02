@@ -6,7 +6,7 @@ using Requests;
 
 public partial class Client : ILogin
 {
-    async Task<AzureResponse<AccessToken>> ILogin.GetAccessTokenAsync(string tenantId, AccessTokenRequestBody body, CancellationToken cancellationToken = default)
+    async Task<AzureResponse<AccessToken>> ILogin.GetAccessTokenAsync(string tenantId, AccessTokenRequestBody body, CancellationToken cancellationToken)
     {
         var request  = RestApiRequest<AccessTokenRequestBody>.AsFormUrlEncodedContent($"https://login.microsoftonline.com/{tenantId}/oauth2/token", body);
         var response = await _tokenClient.PostAsync(request, cancellationToken: cancellationToken).ConfigureAwait(false);

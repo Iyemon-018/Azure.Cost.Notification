@@ -8,17 +8,17 @@
 /// </remarks>
 public sealed class QueryResult
 {
-    public string eTag { get; set; }
+    public string eTag { get; set; } = null!;
 
-    public string id { get; set; }
+    public string id { get; set; } = null!;
 
-    public string location { get; set; }
+    public string location { get; set; } = null!;
 
-    public string name { get; set; }
+    public string name { get; set; } = null!;
 
-    public string sku { get; set; }
+    public string sku { get; set; } = null!;
 
-    public string type { get; set; }
+    public string type { get; set; } = null!;
 
-    public QueryResultProperty properties { get; set; }
+    public QueryResultProperty properties { get; set; } = null!;
 }

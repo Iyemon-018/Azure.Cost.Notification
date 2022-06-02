@@ -10,11 +10,11 @@ using Data;
 /// </remarks>
 public sealed class QueryUsageRequestBody
 {
-    public QueryDataset dataset { get; set; }
+    public QueryDataset? dataset { get; set; }
 
     public TimeframeType timeframe { get; set; }
 
     public ExportType type { get; set; }
 
-    public QueryTimePeriod timePeriod { get; set; }
+    public QueryTimePeriod? timePeriod { get; set; }
 }
