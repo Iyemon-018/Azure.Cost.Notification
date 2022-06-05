@@ -20,7 +20,7 @@ steps:
   inputs:
     command: 'test'
     projects: '**/Azure.Cost.Notification.Tests/Azure.Cost.Notification.Tests.csproj'
-    arguments: '--configuration ${{ parameters.buildConfiguration }} --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    arguments: '--configuration ${{ parameters.buildConfiguration }} --no-build --collect:"XPlat Code Coverage" --settings ./Tests/.coverlet/runsettings.xml'
     publishTestResults: true
 
 - task: PublishCodeCoverageResults@1
