@@ -7,12 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ChainingAssertion;
-using Infrastructure.RestApi;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Notification.Application.Domain.Models;
 using Notification.Domain.ValueObjects;
+using Notification.Infrastructure.RestApi;
 using Xunit;
 using Xunit.Abstractions;
 

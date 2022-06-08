@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ChainingAssertion;
-using Infrastructure.ChatworkApi;
 using Moq;
 using Notification.Application.Domain.Services;
 using Notification.Domain.Repositories;
 using Notification.Domain.ValueObjects;
+using Notification.Infrastructure.ChatworkApi;
 using Xunit;
 
 public class SendMessageServiceTest

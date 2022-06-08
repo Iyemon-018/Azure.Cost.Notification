@@ -11,4 +11,7 @@
     <ProjectReference Include="..\Azure.RestApi.CostManagement\Azure.RestApi.CostManagement.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Azure.Cost.Notification.Tests" />
+	</ItemGroup>
 </Project>
