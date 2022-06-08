@@ -2,15 +2,11 @@
 
 using System;
 using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Azure.RestApi.CostManagement;
 using Azure.RestApi.CostManagement.Data;
-using Azure.RestApi.CostManagement.Requests;
 using ChainingAssertion;
 using Moq;
-using Notification.Domain.Repositories;
 using Notification.Infrastructure.RestApi;
 using Notification.Infrastructure.RestApi.Repositories;
 using Xunit;
@@ -130,58 +126,5 @@ public class LoginRepositoryTest
         response.ExpiredOn.Is(DateTimeOffset.FromUnixTimeSeconds(1892213).LocalDateTime);
         response.NotBefore.Is(DateTimeOffset.FromUnixTimeSeconds(309217).LocalDateTime);
         response.TokenType.Is("token_type");
-    }
-}
-
-public sealed class TestFactory
-{
-    private readonly Mock<IClient> _client;
-
-    private readonly Mock<ILogin> _login;
-
-    public TestFactory()
-    {
-        _client = new Mock<IClient>();
-        _login = new Mock<ILogin>();
-
-        _client.Setup(x => x.Login).Returns(LoginMock.Object);
-        LoginMock.GetAccessTokenAsyncMock((tenantId, body, token) => AzureResponseBuilder.Error<AccessToken>(HttpStatusCode.Unauthorized));
-    }
-
-    public IClient Client => _client.Object;
-
-    public Mock<ILogin> LoginMock => _login;
-}
-
-public static class LoginMockExtensions
-{
-    public static void GetAccessTokenAsyncMock(this Mock<ILogin> self, Func<string, AccessTokenRequestBody, CancellationToken, AzureResponse<AccessToken>> func)
-        => self.Setup(x => x.GetAccessTokenAsync(It.IsAny<string>(), It.IsAny<AccessTokenRequestBody>(), It.IsAny<CancellationToken>())).ReturnsAsync(func);
-
-    public static void AccessTokenMock(this Mock<ILogin> self, Action<AccessToken> action)
-        => self.Setup(x => x.AccessToken(It.IsAny<AccessToken>())).Callback(action);
-}
-
-public static class AzureResponseBuilder
-{
-    public static AzureResponse<T> Success<T>(T              content
-                                            , HttpStatusCode statusCode = HttpStatusCode.OK
-                                            , HttpMethod?    method     = null
-                                            , string?        requestUri = null) where T : class
-        => new(content, statusCode, new HttpRequestMessage(method ?? HttpMethod.Get, requestUri));
-    public static AzureResponse<T> Error<T>(HttpStatusCode statusCode
-                                          , HttpMethod?    method     = null
-                                          , string?        requestUri = null
-                                          , string         code       = "1234"
-                                          , string         message    = nameof(AzureResponseBuilder) + "." + nameof(Error)) where T : class
-    {
-        var error = new ErrorResponse
-                    {
-                        error = new ErrorDetails
-                                {
-                                    code = code, message = message
-                                }
-                    };
-        return new(statusCode, new HttpRequestMessage(method ?? HttpMethod.Get, requestUri), error);
     }
 }
