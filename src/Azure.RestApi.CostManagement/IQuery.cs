@@ -26,6 +26,6 @@ public interface IQuery
     Task<AzureResponse<QueryResult>> UsageAsync(QueryScope scope
                                               , QueryUsageRequestBody body
                                               , string skipToken = default!
-                                              , string? apiVersion = default
+                                              , string apiVersion = Constants.DefaultVersion
                                               , CancellationToken cancellationToken = default);
 }

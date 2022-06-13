@@ -1,0 +1,63 @@
+{
+    "id": "subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/providers/Microsoft.CostManagement/query/e601b98f-91ae-4cd6-90c3-a88b9fdeb291",
+    "name": "e601b98f-91ae-4cd6-90c3-a88b9fdeb291",
+    "type": "Microsoft.CostManagement/query",
+    "location": null,
+    "sku": null,
+    "eTag": null,
+    "properties": {
+        "nextLink": "$skiptoken=AQAAAA%3D%3D",
+        "columns": [
+            {
+                "name": "PreTaxCost",
+                "type": "Number"
+            },
+            {
+                "name": "UsageDate",
+                "type": "Number"
+            },
+            {
+                "name": "ResourceGroupName",
+                "type": "String"
+            },
+            {
+                "name": "ServiceName",
+                "type": "String"
+            },
+            {
+                "name": "ResourceId",
+                "type": "String"
+            },
+            {
+                "name": "Currency",
+                "type": "String"
+            }
+        ],
+        "rows": [
+            [
+                0.000392,
+                20220401,
+                "motex.develop.business",
+                "API Management",
+                "/subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/resourcegroups/motex.develop.business/providers/microsoft.apimanagement/service/motex-develop-works-apim",
+                "JPY"
+            ],
+            [
+                0.0,
+                20220401,
+                "account-profile",
+                "Azure App Service",
+                "/subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/resourcegroups/account-profile/providers/microsoft.web/sites/account-profile",
+                "JPY"
+            ],
+            [
+                0.0,
+                20220401,
+                "azure.devops.hooks",
+                "Azure App Service",
+                "/subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/resourcegroups/azure.devops.hooks/providers/microsoft.web/sites/pipelinenotifer",
+                "JPY"
+            ]
+        ]
+    }
+}

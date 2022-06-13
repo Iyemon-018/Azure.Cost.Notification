@@ -29,4 +29,19 @@
     <ProjectReference Include="..\..\src\Azure.RestApi.CostManagement\Azure.RestApi.CostManagement.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\ResourceUsageRepositoryTest\DailyCost.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\ResourceUsageRepositoryTest\DailyCost_Onece.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\ResourceUsageRepositoryTest\DailyCost_Twice_1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\ResourceUsageRepositoryTest\DailyCost_Twice_2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

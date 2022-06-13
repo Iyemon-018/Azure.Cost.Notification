@@ -1,0 +1,55 @@
+{
+    "id": "subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/providers/Microsoft.CostManagement/query/e601b98f-91ae-4cd6-90c3-a88b9fdeb291",
+    "name": "e601b98f-91ae-4cd6-90c3-a88b9fdeb291",
+    "type": "Microsoft.CostManagement/query",
+    "location": null,
+    "sku": null,
+    "eTag": null,
+    "properties": {
+        "nextLink": null,
+        "columns": [
+            {
+                "name": "PreTaxCost",
+                "type": "Number"
+            },
+            {
+                "name": "UsageDate",
+                "type": "Number"
+            },
+            {
+                "name": "ResourceGroupName",
+                "type": "String"
+            },
+            {
+                "name": "ServiceName",
+                "type": "String"
+            },
+            {
+                "name": "ResourceId",
+                "type": "String"
+            },
+            {
+                "name": "Currency",
+                "type": "String"
+            }
+        ],
+        "rows": [
+            [
+                21.983625215999989,
+                20220402,
+                "test-lab3225414888002",
+                "Storage",
+                "/subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/resourcegroups/test-lab3225414888002/providers/microsoft.compute/disks/v9400-update-19-osdisk",
+                "JPY"
+            ],
+            [
+                21.983625215999989,
+                20220402,
+                "test-lab4008206580000",
+                "Storage",
+                "/subscriptions/5618c698-7d8d-4389-9df2-df12f2b9ab51/resourcegroups/test-lab4008206580000/providers/microsoft.compute/disks/win2019-sql2017-osdisk",
+                "JPY"
+            ]
+        ]
+    }
+}

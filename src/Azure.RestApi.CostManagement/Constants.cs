@@ -13,6 +13,6 @@ internal static class Constants
                       , DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
                       , WriteIndented           = true
                     };
-
-    public static readonly string LatestVersion = "2021-10-01";
+    
+    public const string DefaultVersion = "2021-10-01";
 }
