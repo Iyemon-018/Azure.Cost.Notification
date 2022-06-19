@@ -49,6 +49,10 @@ public class AggregateTest
         public TestFactory()
         {
             Context = new Mock<IDurableOrchestrationContext>();
+
+            Context.Setup(x => x.GetInput<AggregateParameter>())
+                   .Returns(() => new AggregateParameter(new HttpRequestMessage(HttpMethod.Get
+                          , "https://azure.website/api/cost/aggregate?roomId=1082&chatworkApiToken=accedkaks10&subscriptionId=1234-5678-90abc-defg&tenantId=223940dsa0s&clientId=209931&clientSecret=Hlh5divW.Z0.CoPpwkGsjzIY5fcxRvQD7W")));
         }
 
         public Mock<IDurableOrchestrationContext> Context { get; }

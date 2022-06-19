@@ -20,23 +20,21 @@ public sealed class Aggregate
             [OrchestrationTrigger] IDurableOrchestrationContext context
             , ILogger log)
     {
-        var messages   = Enumerable.Empty<ChatworkMessage>();
-        var sendResult = Enumerable.Empty<ChatworkSendResult>();
+        var messages       = Enumerable.Empty<ChatworkMessage>();
+        var sendResult     = Enumerable.Empty<ChatworkSendResult>();
 
-        // TODO パラメータから取得する。
-        var roomId = 0;
+        var parameter      = context.GetInput<AggregateParameter>();
+
+        var roomId         = parameter.RoomId.Value;
+        var subscriptionId = parameter.SubscriptionId.Value;
 
         try
         {
-            // TODO アクセストークンを取得する。
-            var tokenRequest = new AzureAccessTokenRequest(tenantId: ""
-                  , clientId: ""
-                  , clientSecret: "");
+            // アクセストークンを取得する。
+            var tokenRequest = parameter.AsAzureAccessTokenRequest();
+            var token        = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
 
-            var token          = await context.CallActivityAsync<AzureAuthentication>($"{nameof(SharedActivity)}_{nameof(SharedActivity.GetAccessToken)}", tokenRequest);
-
-            // TODO 取得したアクセストークンを使用して、CostManagement API を呼び出す。(3つ)
-            var subscriptionId = "";
+            // 取得したアクセストークンを使用して、CostManagement API を呼び出す。(3つ)
             var collectTasks = new[]
                                {
                                    context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", subscriptionId)
@@ -45,7 +43,7 @@ public sealed class Aggregate
                                };
             var totalCostResults = await Task.WhenAll(collectTasks);
 
-            // TODO 送信用のメッセージ形式にフォーマットする。
+            // 送信用のメッセージ形式にフォーマットする。
             messages = await context.CallActivityAsync<IEnumerable<ChatworkMessage>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", (roomId, totalCostResults));
         }
         catch (Exception e)
@@ -57,7 +55,7 @@ public sealed class Aggregate
         }
         finally
         {
-            // TODO チャットに結果をまとめて送信する。
+            // チャットに結果をまとめて送信する。
             sendResult = await context.CallActivityAsync<IEnumerable<ChatworkSendResult>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", messages);
         }
 
@@ -71,7 +69,8 @@ public sealed class Aggregate
           , [DurableClient] IDurableOrchestrationClient starter
           , ILogger                                     log)
     {
-        var instanceId = await starter.StartNewAsync($"{nameof(Aggregate)}_{nameof(Orchestrator)}", null);
+        var parameter  = new AggregateParameter(req);
+        var instanceId = await starter.StartNewAsync($"{nameof(Aggregate)}_{nameof(Orchestrator)}", parameter);
 
         log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
 
