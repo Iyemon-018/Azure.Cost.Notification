@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using ChainingAssertion;
-using Notification.Domain.ValueObjects;
+using Notification.Domain.Models;
 using Xunit;
 
 public class ChatworkMessageTest
@@ -23,7 +23,9 @@ public class ChatworkMessageTest
     public void Test_Ctor(int roomId, string message)
     {
         // 例外が出なけりゃいい。
-        new ChatworkMessage(roomId, message).Is(new ChatworkMessage(roomId, message));
+        var target = new ChatworkMessage(roomId, message);
+        target.Message.Is(message);
+        target.RoomId.Is(roomId);
     }
 
     public static IEnumerable<object[]> Get_Test_ToString()

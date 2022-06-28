@@ -6,12 +6,15 @@ using Repositories;
 
 internal sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly IMessageSendRepository _messageSendRepository;
+    private readonly IClient _client;
 
     public UnitOfWork(IClient client)
     {
-        _messageSendRepository = new MessageSendRepository(client);
+        _client               = client;
+        MessageSendRepository = new MessageSendRepository(client);
     }
 
-    public IMessageSendRepository MessageSendRepository => _messageSendRepository;
+    public IMessageSendRepository MessageSendRepository { get; }
+
+    public void ApiToken(string token) => _client.ApiToken(token);
 }

@@ -1,6 +1,6 @@
 ﻿namespace Azure.Cost.Notification.Domain.Repositories;
 
-using ValueObjects;
+using Models;
 
 public interface ILoginRepository
 {

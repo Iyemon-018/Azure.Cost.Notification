@@ -1,4 +1,4 @@
-﻿namespace Azure.Cost.Notification.Domain.ValueObjects;
+﻿namespace Azure.Cost.Notification.Domain.Entities;
 
 public interface IResourceUsage
 {

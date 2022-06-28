@@ -2,7 +2,8 @@
 
 using System.Collections.Generic;
 using ChainingAssertion;
-using Notification.Domain.ValueObjects;
+using Notification.Domain.Entities;
+using Notification.Domain.Models;
 using Xunit;
 
 public class ChatworkSendResultTest
@@ -20,7 +21,10 @@ public class ChatworkSendResultTest
     public void Test_Ctor(int roomId, string message, string messageId)
     {
         // 例外が出なけりゃいい。
-        new ChatworkSendResult(new ChatworkMessage(roomId, message), messageId).Is(new ChatworkSendResult(new ChatworkMessage(roomId, message), messageId));
+        var target = new ChatworkSendResult(new ChatworkMessage(roomId, message), messageId);
+        target.Id.Is(messageId);
+        target.Message.RoomId.Is(roomId);
+        target.Message.Message.Is(message);
     }
 
     [Theory]
@@ -30,20 +34,9 @@ public class ChatworkSendResultTest
     [InlineData(100, $"{nameof(Test_Log)}", "", $"Send:, Room:100, {nameof(Test_Log)}")]
     public void Test_Log(int roomId, string message, string messageId, string expected)
     {
-        new ChatworkSendResult(new ChatworkMessage(roomId, message), messageId).Log.Is(expected);
+        new ChatworkSendResult(new ChatworkMessage(roomId, message), messageId).Log().Is(expected);
     }
-
-    [Fact]
-    public void Test_Equals_いずれかの値が異なる場合は一致しないこと()
-    {
-        var target = new ChatworkSendResult(new ChatworkMessage(1098, nameof(Test_Equals_いずれかの値が異なる場合は一致しないこと)), "A9010");
-
-        (target == new ChatworkSendResult(new ChatworkMessage(1099, nameof(Test_Equals_いずれかの値が異なる場合は一致しないこと)), "A9010")).IsFalse("roomId が不一致");
-        (target == new ChatworkSendResult(new ChatworkMessage(1098, nameof(Test_Equals_いずれかの値が異なる場合は一致しないこと) + "_"), "A9010")).IsFalse("message が不一致");
-        (target == new ChatworkSendResult(new ChatworkMessage(1098, nameof(Test_Equals_いずれかの値が異なる場合は一致しないこと)), "A9009")).IsFalse("messageId が不一致");
-        (target == new ChatworkSendResult(new ChatworkMessage(1097, nameof(Test_Equals_いずれかの値が異なる場合は一致しないこと) + "_"), "A9011")).IsFalse("すべて不一致");
-    }
-
+    
     [Fact]
     public void Test_Equals_比較対象のオブジェクトがnullの場合は一致しないこと()
     {

@@ -1,6 +1,6 @@
 ﻿namespace Azure.Cost.Notification.Infrastructure.ChatworkApi;
 
-using Domain.ValueObjects;
+using Domain.Models;
 using global::ChatworkApi.Messages;
 
 public static class ChatworkMessageBuilder

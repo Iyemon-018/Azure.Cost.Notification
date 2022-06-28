@@ -123,8 +123,10 @@ public class LoginRepositoryTest
 
         response.IsNotNull();
         response.AccessToken.Is("access_token");
-        response.ExpiredOn.Is(DateTimeOffset.FromUnixTimeSeconds(1892213).LocalDateTime);
-        response.NotBefore.Is(DateTimeOffset.FromUnixTimeSeconds(309217).LocalDateTime);
+        response.ExpiredOn.Is(1892213);
+        response.NotBefore.Is(309217);
         response.TokenType.Is("token_type");
+        response.ExpiredOnUnixTimeSecond().Is(DateTimeOffset.FromUnixTimeSeconds(1892213).LocalDateTime);
+        response.NotBeforeUnixTimeSecond().Is(DateTimeOffset.FromUnixTimeSeconds(309217).LocalDateTime);
     }
 }

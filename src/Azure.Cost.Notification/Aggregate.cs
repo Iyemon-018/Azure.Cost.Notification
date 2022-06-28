@@ -6,8 +6,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Application.Domain.Models;
+using Domain.Entities;
 using Domain.Extensions;
-using Domain.ValueObjects;
+using Domain.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -22,11 +23,7 @@ public sealed class Aggregate
     {
         var messages       = Enumerable.Empty<ChatworkMessage>();
         var sendResult     = Enumerable.Empty<ChatworkSendResult>();
-
         var parameter      = context.GetInput<AggregateParameter>();
-
-        var roomId         = parameter.RoomId.Value;
-        var subscriptionId = parameter.SubscriptionId.Value;
 
         try
         {
@@ -37,26 +34,26 @@ public sealed class Aggregate
             // 取得したアクセストークンを使用して、CostManagement API を呼び出す。(3つ)
             var collectTasks = new[]
                                {
-                                   context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", subscriptionId)
-                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.WeeklyTotalCost)}", subscriptionId)
-                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.MonthlyTotalCost)}", subscriptionId)
+                                   context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.DailyTotalCost)}", parameter.SubscriptionId)
+                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.WeeklyTotalCost)}", parameter.SubscriptionId)
+                                 , context.CallActivityAsync<TotalCostResult>($"{nameof(SharedActivity)}_{nameof(SharedActivity.MonthlyTotalCost)}", parameter.SubscriptionId)
                                };
             var totalCostResults = await Task.WhenAll(collectTasks);
 
             // 送信用のメッセージ形式にフォーマットする。
-            messages = await context.CallActivityAsync<IEnumerable<ChatworkMessage>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", (roomId, totalCostResults));
+            messages = await context.CallActivityAsync<IEnumerable<ChatworkMessage>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.FormatChatworkMessage)}", (parameter.RoomId, totalCostResults));
         }
         catch (Exception e)
         {
             // 失敗した場合でもチャットに失敗したことの通知は出したい。
             // でなければ成功したのか、実行されていないのか判断できないので。
-            messages = new[] {new ChatworkMessage(roomId, "Azure 利用料金の通知に失敗しました。")};
+            messages = new[] {new ChatworkMessage(parameter.RoomId, "Azure 利用料金の通知に失敗しました。")};
             log.LogError(e, $"Failed aggregate azure cost.[{messages}]");
         }
         finally
         {
             // チャットに結果をまとめて送信する。
-            sendResult = await context.CallActivityAsync<IEnumerable<ChatworkSendResult>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", messages);
+            sendResult = await context.CallActivityAsync<IEnumerable<ChatworkSendResult>>($"{nameof(SharedActivity)}_{nameof(SharedActivity.SendChatwork)}", (parameter.ChatworkApiToken, messages));
         }
 
         return sendResult.Logs();

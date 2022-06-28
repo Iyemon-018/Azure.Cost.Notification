@@ -14,12 +14,12 @@ public class AggregateParameterTest
 
         var target = new AggregateParameter(req);
         
-        target.RoomId.Value.Is(1082);
-        target.ChatworkApiToken.Value.Is("accedkaks10");
-        target.SubscriptionId.Value.Is("1234-5678-90abc-defg");
-        target.TenantId.Value.Is("223940dsa0s");
-        target.ClientId.Value.Is("209931");
-        target.ClientSecret.Value.Is("Hlh5divW.Z0.CoPpwkGsjzIY5fcxRvQD7W");
+        target.RoomId.Is(1082);
+        target.ChatworkApiToken.Is("accedkaks10");
+        target.SubscriptionId.Is("1234-5678-90abc-defg");
+        target.TenantId.Is("223940dsa0s");
+        target.ClientId.Is("209931");
+        target.ClientSecret.Is("Hlh5divW.Z0.CoPpwkGsjzIY5fcxRvQD7W");
     }
 
     [Theory]

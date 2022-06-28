@@ -2,7 +2,7 @@
 
 using System.Text.Json;
 using Azure.RestApi.CostManagement.Data;
-using Domain.ValueObjects;
+using Domain.Entities;
 using Models;
 
 internal static class QueryResultConverter

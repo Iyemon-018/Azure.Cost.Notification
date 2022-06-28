@@ -2,8 +2,8 @@
 
 using Infrastructure.RestApi;
 using Models;
+using Notification.Domain.Models;
 using Notification.Domain.Repositories;
-using Notification.Domain.ValueObjects;
 
 public sealed class AccessTokenRequestService : IAccessTokenRequestService
 {

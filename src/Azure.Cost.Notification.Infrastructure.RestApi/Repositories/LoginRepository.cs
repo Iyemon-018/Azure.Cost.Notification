@@ -2,8 +2,8 @@
 
 using Azure.RestApi.CostManagement;
 using Azure.RestApi.CostManagement.Requests;
+using Domain.Models;
 using Domain.Repositories;
-using Domain.ValueObjects;
 
 internal class LoginRepository : ILoginRepository
 {

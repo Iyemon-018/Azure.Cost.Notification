@@ -2,7 +2,7 @@
 
 using Infrastructure.ChatworkApi;
 using Models;
-using Notification.Domain.ValueObjects;
+using Notification.Domain.Models;
 
 public sealed class CostMessageBuildService : ICostMessageBuildService
 {

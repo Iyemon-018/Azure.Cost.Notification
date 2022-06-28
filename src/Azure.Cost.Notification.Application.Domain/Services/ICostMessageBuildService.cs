@@ -1,7 +1,7 @@
 ﻿namespace Azure.Cost.Notification.Application.Domain.Services;
 
 using Models;
-using Notification.Domain.ValueObjects;
+using Notification.Domain.Models;
 
 /// <summary>
 /// 収集した利用料金の情報を送信用のメッセージ形式に変換するためのアプリケーション サービス インターフェースです。

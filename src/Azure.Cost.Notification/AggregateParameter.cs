@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Application.Domain.Models;
-using Domain.ValueObjects;
+using Domain.Extensions;
 using Exceptions;
 
 public sealed class AggregateParameter
 {
+    public AggregateParameter()
+    {
+        
+    }
+
     public AggregateParameter(HttpRequestMessage req)
     {
         // パラメータを取り出したい。
@@ -25,12 +30,12 @@ public sealed class AggregateParameter
 
         VerifyParameters(parameters);
 
-        RoomId           = new RoomId(parameters);
-        ChatworkApiToken = new ChatworkApiToken(parameters);
-        SubscriptionId   = new SubscriptionId(parameters);
-        TenantId         = new TenantId(parameters);
-        ClientId         = new ClientId(parameters);
-        ClientSecret     = new ClientSecret(parameters);
+        RoomId           = parameters["roomId"].ToInt();
+        ChatworkApiToken = parameters["chatworkApiToken"];
+        SubscriptionId   = parameters["subscriptionId"];
+        TenantId         = parameters["tenantId"];
+        ClientId         = parameters["clientId"];
+        ClientSecret     = parameters["clientSecret"];
     }
 
     private void VerifyParameters(Dictionary<string, string> parameters)
@@ -41,18 +46,18 @@ public sealed class AggregateParameter
             if (!parameters.ContainsKey(name)) throw new ParameterNotExistException(name);
         }
     }
+    
+    public int RoomId { get; set; }
+    
+    public string ChatworkApiToken { get; set; }
 
-    public RoomId RoomId { get; }
+    public string SubscriptionId { get; set; }
 
-    public ChatworkApiToken ChatworkApiToken { get; }
+    public string TenantId { get; set; }
 
-    public SubscriptionId SubscriptionId { get; }
+    public string ClientId { get; set; }
 
-    public TenantId TenantId { get; }
+    public string ClientSecret { get; set; }
 
-    public ClientId ClientId { get; }
-
-    public ClientSecret ClientSecret { get; }
-
-    public AzureAccessTokenRequest AsAzureAccessTokenRequest() => new(TenantId.Value, ClientId.Value, ClientSecret.Value);
+    public AzureAccessTokenRequest AsAzureAccessTokenRequest() => new(TenantId, ClientId, ClientSecret);
 }

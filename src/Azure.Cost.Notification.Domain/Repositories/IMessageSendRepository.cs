@@ -1,6 +1,7 @@
 ﻿namespace Azure.Cost.Notification.Domain.Repositories;
 
-using ValueObjects;
+using Entities;
+using Models;
 
 public interface IMessageSendRepository
 {

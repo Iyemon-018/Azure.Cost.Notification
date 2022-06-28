@@ -3,6 +3,7 @@
 using Azure.RestApi.CostManagement;
 using Azure.RestApi.CostManagement.Data;
 using Azure.RestApi.CostManagement.Requests;
+using Domain.Entities;
 using Domain.Repositories;
 using Domain.ValueObjects;
 using Extensions;

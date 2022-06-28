@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChainingAssertion;
 using Notification.Application.Domain.Models;
+using Notification.Domain.Entities;
 using Notification.Domain.ValueObjects;
 using Xunit;
 

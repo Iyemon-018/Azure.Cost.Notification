@@ -1,8 +1,9 @@
 ﻿namespace Azure.Cost.Notification.Infrastructure.ChatworkApi.Repositories;
 
+using Domain.Entities;
 using Domain.Extensions;
+using Domain.Models;
 using Domain.Repositories;
-using Domain.ValueObjects;
 using global::ChatworkApi;
 
 internal sealed class MessageSendRepository : IMessageSendRepository
@@ -18,7 +19,7 @@ internal sealed class MessageSendRepository : IMessageSendRepository
     {
         var result = await _client.Rooms.AddMessageAsync(message.RoomId, message.Message, false, cancellationToken).ConfigureAwait(false);
 
-        if (!result.IsSuccess) throw new RestApiException(result.StatusCode, result.Errors());
+        if (!result.IsSuccess) throw new RestApiException(result.StatusCode, result.Errors() ?? Enumerable.Empty<string>());
 
         return new ChatworkSendResult(message, result.Content.message_id);
     }

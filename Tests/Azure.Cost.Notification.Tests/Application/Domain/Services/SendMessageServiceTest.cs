@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 using ChainingAssertion;
 using Moq;
 using Notification.Application.Domain.Services;
+using Notification.Domain.Entities;
+using Notification.Domain.Models;
 using Notification.Domain.Repositories;
-using Notification.Domain.ValueObjects;
 using Notification.Infrastructure.ChatworkApi;
 using Xunit;
 
@@ -61,9 +62,9 @@ public class SendMessageServiceTest
                                          });
         _testFactory.SetupSendResult((m, _) => new ChatworkSendResult(m, messageId));
 
-        await foreach (var result in _target.ExecuteAsync(message))
+        await foreach (var result in _target.ExecuteAsync("test-Token", message))
         {
-            result.Log.Is(expected.Dequeue());
+            result.Log().Is(expected.Dequeue());
         }
     }
 
@@ -85,9 +86,9 @@ public class SendMessageServiceTest
                                          });
         _testFactory.SetupSendResult((m, _) => new ChatworkSendResult(m, messageId));
 
-        await foreach (var result in _target.ExecuteAsync(message))
+        await foreach (var result in _target.ExecuteAsync("Test-Token", message))
         {
-            result.Log.Is(expected.Dequeue());
+            result.Log().Is(expected.Dequeue());
         }
     }
 }

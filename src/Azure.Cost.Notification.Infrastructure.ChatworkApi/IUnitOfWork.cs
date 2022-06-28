@@ -1,9 +1,10 @@
-﻿namespace Azure.Cost.Notification.Infrastructure.ChatworkApi
-{
-    using Domain.Repositories;
+﻿namespace Azure.Cost.Notification.Infrastructure.ChatworkApi;
 
-    public interface IUnitOfWork
-    {
-        IMessageSendRepository MessageSendRepository { get; }
-    }
+using Domain.Repositories;
+
+public interface IUnitOfWork
+{
+    IMessageSendRepository MessageSendRepository { get; }
+
+    void ApiToken(string token);
 }

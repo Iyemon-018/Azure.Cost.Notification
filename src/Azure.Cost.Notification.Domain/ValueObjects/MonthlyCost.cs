@@ -1,5 +1,7 @@
 ﻿namespace Azure.Cost.Notification.Domain.ValueObjects;
 
+using Entities;
+
 public sealed class MonthlyCost : ValueObjectBase<MonthlyCost>
 {
     public MonthlyCost(IEnumerable<ResourceUsage> usage)

@@ -11,7 +11,8 @@ using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Notification.Application.Domain.Models;
-using Notification.Domain.ValueObjects;
+using Notification.Domain.Entities;
+using Notification.Domain.Models;
 using Notification.Infrastructure.RestApi;
 using Xunit;
 using Xunit.Abstractions;
@@ -66,13 +67,13 @@ public class AggregateTest
                     .ReturnsAsync(() => new[] {new ChatworkMessage(98878, $"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}")});
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
-                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) =>
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()))
+                    .ReturnsAsync((string functionName, ValueTuple<string, IEnumerable<ChatworkMessage>> context) =>
                      {
                          // 例外がスローされた場合、受け取ったメッセージは例外インスタンスのメッセージとなる。
                          // なので、フォーマットしたときの戻り値のメッセージを取得できていればこのテストは正常と判断できる。
-                         messages.First().ToString().Is($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}");
-                         return messages.Select(x => new ChatworkSendResult(x, "12345"));
+                         context.Item2.First().ToString().Is($"{nameof(Test_Orchestrator_集計した情報を送信した結果を取得できること)}");
+                         return context.Item2.Select(x => new ChatworkSendResult(x, "12345"));
                      });
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
@@ -81,7 +82,7 @@ public class AggregateTest
         _testFactory.Context
                     .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()), Times.Once);
         _testFactory.Context
-                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()), Times.Once);
+                    .Verify(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()), Times.Once);
     }
 
     [Fact]
@@ -92,8 +93,9 @@ public class AggregateTest
                     .Throws<ApplicationException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
-                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()))
+                    .ReturnsAsync((string functionName, ValueTuple<string, IEnumerable<ChatworkMessage>> context) =>
+                             context.Item2.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
@@ -114,8 +116,9 @@ public class AggregateTest
                     .Throws(new AzureRestApiException(HttpStatusCode.Unauthorized, new Uri("https://microsoft.com"), new HttpRequestMessage(), string.Empty));
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
-                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()))
+                    .ReturnsAsync((string functionName, ValueTuple<string, IEnumerable<ChatworkMessage>> context) =>
+                             context.Item2.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
@@ -136,8 +139,9 @@ public class AggregateTest
                     .Throws<ApplicationException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
-                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) => messages.Select(x => new ChatworkSendResult(x, "123")));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()))
+                    .ReturnsAsync((string functionName, ValueTuple<string, IEnumerable<ChatworkMessage>> context) =>
+                             context.Item2.Select(x => new ChatworkSendResult(x, "123")));
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
@@ -156,7 +160,7 @@ public class AggregateTest
                     .Throws<ArgumentException>();
 
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()))
                     .Throws<ApplicationException>();
 
         // Chatwork のメッセージ送信で失敗した場合はどうしようもないのでそのまま例外投げるだけ。
@@ -172,17 +176,17 @@ public class AggregateTest
                     .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkMessage>>(FormatChatworkMessageActivityName, It.IsAny<(int, TotalCostResult[])>()))
                     .ReturnsAsync(() => new[] {new ChatworkMessage(118772, nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること))});
         _testFactory.Context
-                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<IEnumerable<ChatworkMessage>>()))
-                    .ReturnsAsync((string functionName, IEnumerable<ChatworkMessage> messages) =>
-                     {
-                         messages.Count().Is(1);
-                         messages.First().ToString().Is(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること));
-                         return messages.Select(x => new ChatworkSendResult(x, messageId));
+                    .Setup(x => x.CallActivityAsync<IEnumerable<ChatworkSendResult>>(SendChatworkActivityName, It.IsAny<(string, IEnumerable<ChatworkMessage>)>()))
+                    .ReturnsAsync((string functionName, ValueTuple<string, IEnumerable<ChatworkMessage>> context) =>
+                    {
+                         context.Item2.Count().Is(1);
+                         context.Item2.First().ToString().Is(nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること));
+                         return context.Item2.Select(x => new ChatworkSendResult(x, messageId));
                      });
 
         var result = await _target.Orchestrator(_testFactory.Context.Object, _logger.Object);
 
-        result.Is(new ChatworkSendResult(new ChatworkMessage(118772, nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること)), messageId).Log);
+        result.Is(new ChatworkSendResult(new ChatworkMessage(118772, nameof(Test_Orchestrator_送信するメッセージ構築のための情報が期待した値であること)), messageId).Log());
         _outputHelper.WriteLine(result);
     }
 }

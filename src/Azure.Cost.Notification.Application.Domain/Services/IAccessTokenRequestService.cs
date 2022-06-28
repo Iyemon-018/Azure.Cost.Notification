@@ -1,7 +1,7 @@
 ﻿namespace Azure.Cost.Notification.Application.Domain.Services;
 
 using Models;
-using Notification.Domain.ValueObjects;
+using Notification.Domain.Models;
 
 /// <summary>
 /// Azure からアクセストークンを取得するためのアプリケーション サービス インターフェースです。

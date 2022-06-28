@@ -1,5 +1,7 @@
 ﻿namespace Azure.Cost.Notification.Domain.ValueObjects;
 
+using Entities;
+
 public sealed class DailyCost : ValueObjectBase<DailyCost>
 {
     public DailyCost(DateTime target, IEnumerable<ResourceUsage> usage)

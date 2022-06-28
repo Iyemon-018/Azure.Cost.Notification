@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Domain.Models;
 using Application.Domain.Services;
-using Domain.ValueObjects;
+using Domain.Entities;
+using Domain.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
@@ -117,18 +118,19 @@ public sealed class SharedActivity
     /// <returns>送信結果を返します。</returns>
     /// <exception cref="NotImplementedException"></exception>
     [FunctionName($"{nameof(SharedActivity)}_{nameof(SendChatwork)}")]
-    public async Task<IEnumerable<ChatworkSendResult>> SendChatwork([ActivityTrigger] IEnumerable<ChatworkMessage> message, ILogger log)
+    public async Task<IEnumerable<ChatworkSendResult>> SendChatwork([ActivityTrigger] IDurableActivityContext context, ILogger log)
     {
-        log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
-
         var result = new List<ChatworkSendResult>();
 
-        await foreach (var sendResult in _sendMessageService.ExecuteAsync(message))
+        log.LogInformation($"[{nameof(SharedActivity)}_{nameof(SendChatwork)}] ");
+
+        (string token, IEnumerable<ChatworkMessage> message) parameter = context.GetInput<(string, IEnumerable<ChatworkMessage>)>();
+
+        await foreach (var sendResult in _sendMessageService.ExecuteAsync(parameter.token, parameter.message))
         {
             result.Add(sendResult);
         }
 
         return result;
     }
-
 }
