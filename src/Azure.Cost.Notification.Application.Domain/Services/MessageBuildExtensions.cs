@@ -17,5 +17,5 @@ internal static class MessageBuildExtensions
     }
 
     public static string AsResourcesCost(this TotalCostResult self)
-        => string.Join(Environment.NewLine, self.TakeHighAmount(5).Select(x => $"- {x.ResourceGroupName} / {x.Id}({x.ServiceName}) {x.CostJapaneseCurrency()}").ToArray());
+        => string.Join(Environment.NewLine, self.TakeHighAmount(5).Select((x, i) => $"{i + 1}. {x.ResourceGroupName} / {x.Id}({x.ServiceName}) {x.CostJapaneseCurrency()}").ToArray());
 }

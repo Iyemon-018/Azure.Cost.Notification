@@ -37,10 +37,10 @@ public class CostMessageBuildServiceTest
                          {
                              $"[info][title]{today:yyyy/MM/dd} の利用料金(Daily)[/title]"
                            + $"合計: ￥100.00{Environment.NewLine}"
-                           + $"[hr]{Environment.NewLine}"
+                           + $"[hr]"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Daily Group / 01010(Daily Cost) ￥100.00"
-                           + $"[/info]"
+                           + $"1. Daily Group / 01010(Daily Cost) ￥100.00"
+                           + $"[/info]※Azure.Cost.Notification による自動通知です。"
                          }
                      };
 
@@ -57,22 +57,22 @@ public class CostMessageBuildServiceTest
                          {
                              $"[info][title]{today:yyyy/MM/dd} の利用料金(Daily)[/title]"
                            + $"合計: ￥100.00{Environment.NewLine}"
-                           + $"[hr]{Environment.NewLine}"
+                           + $"[hr]"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Daily Group / 01010(Daily Cost) ￥100.00"
-                           + $"[/info]"
+                           + $"1. Daily Group / 01010(Daily Cost) ￥100.00"
+                           + $"[/info]※Azure.Cost.Notification による自動通知です。"
                            , $"[info][title]{today.AddDays(-6):yyyy/MM/dd} - {today:yyyy/MM/dd} の利用料金(Weekly)[/title]"
                            + $"合計: ￥101.00{Environment.NewLine}"
-                           + $"[hr]{Environment.NewLine}"
+                           + $"[hr]"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Weekly Group / 21010(Weekly Cost) ￥101.00"
-                           + $"[/info]"
+                           + $"1. Weekly Group / 21010(Weekly Cost) ￥101.00"
+                           + $"[/info]※Azure.Cost.Notification による自動通知です。"
                            , $"[info][title]今月の利用料金(Monthly)[/title]"
                            + $"合計: ￥191.00{Environment.NewLine}"
-                           + $"[hr]{Environment.NewLine}"
+                           + $"[hr]"
                            + $"利用料の高いリソース{Environment.NewLine}"
-                           + $"- Monthly Group / 21711(Monthly Cost) ￥191.00"
-                           + $"[/info]"
+                           + $"1. Monthly Group / 21711(Monthly Cost) ￥191.00"
+                           + $"[/info]※Azure.Cost.Notification による自動通知です。"
                          }
                      };
     }
