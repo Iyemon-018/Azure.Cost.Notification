@@ -23,9 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Infrastructure.RestApi", "src\Azure.Cost.Notification.Infrastructure.RestApi\Azure.Cost.Notification.Infrastructure.RestApi.csproj", "{17C5462E-2C21-4557-9CE2-564DAB04F6B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.RestApi.Tests", "Tests\Azure.RestApi.Tests\Azure.RestApi.Tests.csproj", "{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Cost.Notification.Infrastructure.ChatworkApi", "src\Azure.Cost.Notification.Infrastructure.ChatworkApi\Azure.Cost.Notification.Infrastructure.ChatworkApi.csproj", "{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Cost.Notification.Infrastructure.ChatworkApi", "src\Azure.Cost.Notification.Infrastructure.ChatworkApi\Azure.Cost.Notification.Infrastructure.ChatworkApi.csproj", "{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +59,6 @@ Global
 		{17C5462E-2C21-4557-9CE2-564DAB04F6B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C5462E-2C21-4557-9CE2-564DAB04F6B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C5462E-2C21-4557-9CE2-564DAB04F6B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,7 +75,6 @@ Global
 		{8ADE6174-A656-40B4-B44E-877EB2804160} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
 		{94A26D2E-F4DC-41E7-8217-C2240C1776F6} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
 		{17C5462E-2C21-4557-9CE2-564DAB04F6B1} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
-		{5FC55362-EA4C-40CA-A75D-64326FA0FFD7} = {0E370D3C-16F9-4C5E-81AD-7DB51B5EFE19}
 		{BF615C7B-CAAD-4CDC-9F62-292C533E81DC} = {C2AC8732-52F2-4F11-9902-CEF388FC2000}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
