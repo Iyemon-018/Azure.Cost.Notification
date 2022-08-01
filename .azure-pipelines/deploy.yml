@@ -37,9 +37,8 @@ stages:
       parameters:
         buildConfiguration: $(buildConfiguration)
 
-    # 出力単体のタスク。二度手間になるが、--no-build しているので許容する。
     - task: DotNetCoreCLI@2
-      displayName: Build
+      displayName: build and output
       inputs:
         command: 'build'
         projects: src/Azure.Cost.Notification/Azure.Cost.Notification.csproj
