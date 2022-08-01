@@ -17,6 +17,8 @@ variables:
 
   # Working Directory
   workingDirectory: '$(System.DefaultWorkingDirectory)/src/Azure.Cost.Notification'
+  
+  buildConfiguration: 'Release'
 
 stages:
 - stage: Build
@@ -29,13 +31,23 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
+    - template: templates/use-dotnet.yml
+    
+    - template: templates/dotnet-build.yml
+      parameters:
+        buildConfiguration: $(buildConfiguration)
+
+    # 出力単体のタスク。二度手間になるが、--no-build しているので許容する。
     - task: DotNetCoreCLI@2
       displayName: Build
       inputs:
         command: 'build'
-        projects: |
-          $(workingDirectory)/*.csproj
-        arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
+        projects: src/Azure.Cost.Notification/Azure.Cost.Notification.csproj
+        arguments: --no-build --output $(System.DefaultWorkingDirectory)/publish_output --configuration $(buildConfiguration)
+
+    - template: templates/dotnet-test.yml
+      parameters:
+        buildConfiguration: $(buildConfiguration)
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
