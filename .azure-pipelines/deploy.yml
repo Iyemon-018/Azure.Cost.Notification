@@ -4,6 +4,7 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/dotnet-core
 
 trigger: none
+pr: none        # こう書かないと GitHub で push するたびに deploy されてしまう。
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
