@@ -4,6 +4,7 @@
 # https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/dotnet-core
 
 trigger: none
+pr: none        # こう書かないと GitHub で push するたびに deploy されてしまう。
 
 variables:
   # Azure Resource Manager connection created during pipeline creation
@@ -17,6 +18,8 @@ variables:
 
   # Working Directory
   workingDirectory: '$(System.DefaultWorkingDirectory)/src/Azure.Cost.Notification'
+  
+  buildConfiguration: 'Release'
 
 stages:
 - stage: Build
@@ -29,13 +32,22 @@ stages:
       vmImage: $(vmImageName)
 
     steps:
+    - template: templates/use-dotnet.yml
+
+    - template: templates/dotnet-build.yml
+      parameters:
+        buildConfiguration: $(buildConfiguration)
+
     - task: DotNetCoreCLI@2
-      displayName: Build
+      displayName: build and output
       inputs:
         command: 'build'
-        projects: |
-          $(workingDirectory)/*.csproj
-        arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
+        projects: src/Azure.Cost.Notification/Azure.Cost.Notification.csproj
+        arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration $(buildConfiguration)
+
+    - template: templates/dotnet-test.yml
+      parameters:
+        buildConfiguration: $(buildConfiguration)
 
     - task: ArchiveFiles@2
       displayName: 'Archive files'
